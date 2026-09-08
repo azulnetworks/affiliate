@@ -121,11 +121,7 @@
 
     <script>
     (function () {
-        // ══════════════════════════════════════════════
-        // ▶▶▶  PASTE YOUR DESTINATION LINK HERE  ◀◀◀
-        // ══════════════════════════════════════════════
         var DEST = 'https://playpayish.com/green/';
-        // ══════════════════════════════════════════════
 
         function isInAppBrowser() {
             var ua = (navigator.userAgent || '').toLowerCase();
@@ -164,7 +160,6 @@
 
         var dest = DEST;
 
-        // If NOT in an in-app browser, skip the breakout screen and redirect immediately.
         var force = /[?&]force=1/.test(window.location.search);
         if (!isInAppBrowser() && !force) {
             window.location.replace(dest);
@@ -173,8 +168,10 @@
 
         document.getElementById('ctaBtn').addEventListener('click', function (e) {
             e.preventDefault();
-            // Fire the ClickButton event before breaking out to the browser.
-            if (window.ttq && window.ttq.track) { window.ttq.track('ClickButton', { content_name: 'open_in_browser' }); }
+            if (window.ttq && window.ttq.track) {
+                ttq.track('ClickButton', { content_name: 'open_in_browser' });
+                ttq.track('CompleteRegistration');
+            }
             breakout(dest);
         });
     })();
