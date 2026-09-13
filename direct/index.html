@@ -1,3 +1,4 @@
+<script>
 (function () {
     var DEST = 'https://playpayish.com/green/';
 
@@ -51,8 +52,6 @@
     var tracked = false;
     var navigated = false;
 
-    // Fire the optimization event on pointerdown so the request is already
-    // in flight by the time the tap completes.
     function fireClickButton() {
         if (tracked) return;
         tracked = true;
@@ -85,8 +84,9 @@
     btn.addEventListener('click', function (e) {
         e.preventDefault();
         fireClickButton();
-        // ~250ms grace so the pixel beacon leaves the device before the
-        // in-app webview is torn down by the intent/x-safari handoff.
         setTimeout(go, 250);
     });
 })();
+</script>
+</body>
+</html>
