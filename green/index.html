@@ -46,6 +46,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Ar
   .card-img .apple-card{padding:24px}
   .card-chip{top:24px;right:24px}
 }
+
+/* ===== Qualifier gate ===== */
+body.gated{overflow:hidden}
+body.gated .wrap,body.gated .fixed-cta{display:none}
+.gate{display:none;position:fixed;inset:0;background:#f8f9fa;z-index:200;align-items:center;justify-content:center;padding:32px 20px}
+.gate.active{display:flex}
+.gate-inner{max-width:400px;width:100%}
+.gate-card{animation:gateIn .3s ease both}
+@keyframes gateIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.gate-progress{margin-bottom:26px}
+.gate-step{display:block;font-size:13px;font-weight:500;color:#94a3b8;margin-bottom:10px}
+.gate-bar{height:4px;background:#e9edf1;border-radius:999px;overflow:hidden}
+.gate-bar-fill{height:100%;width:0;background:#1e293b;border-radius:999px;transition:width .35s ease}
+.gate-q{font-size:1.5rem;font-weight:600;color:#1e293b;letter-spacing:-.02em;line-height:1.25;margin-bottom:22px}
+.gate-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.gate-opt{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;
+  background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.04);
+  padding:16px 18px;font-family:inherit;font-size:16px;font-weight:500;color:#1e293b;cursor:pointer;
+  transition:border-color .15s,background .15s,transform .1s}
+.gate-opt:hover{border-color:#cbd5e1;background:#fcfcfd}
+.gate-opt:active{transform:scale(.99)}
+.gate-opt svg{width:18px;height:18px;stroke:#cbd5e1;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.gate-opt:hover svg{stroke:#94a3b8}
+.gate-note{font-size:12px;line-height:1.5;color:#94a3b8;text-align:center}
+.gate-back{display:block;margin:14px auto 0;background:none;border:none;font-family:inherit;font-size:13px;
+  font-weight:500;color:#cbd5e1;cursor:pointer;padding:4px}
+.gate-back:hover{color:#94a3b8}
 </style>
 <script>
 !function (w, d, t) {
@@ -57,6 +84,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Ar
 </script>
 </head>
 <body>
+
+<div class="gate" id="gate">
+  <div class="gate-inner">
+    <div class="gate-progress">
+      <span class="gate-step" id="gateStep"></span>
+      <div class="gate-bar"><div class="gate-bar-fill" id="gateBar"></div></div>
+    </div>
+    <div class="gate-card" id="gateCard">
+      <h2 class="gate-q" id="gateQ"></h2>
+      <div class="gate-opts" id="gateOpts"></div>
+    </div>
+    <p class="gate-note">Sweepstakes entry. Your answers help tailor the offers shown next &mdash; they don't affect eligibility and don't guarantee a reward. No purchase necessary.</p>
+    <button class="gate-back" id="gateBack" style="display:none">&larr; Back</button>
+  </div>
+</div>
+
 
 <div class="wrap">
   <div class="header">
@@ -134,8 +177,99 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Ar
 </div>
 
 <script>
+/* ===== Qualifier gate =====
+   Two preference questions shown before the lander.
+   Answers ride along on the outbound URL as q1/q2 so you can
+   segment EPC by answer in RedTrack instead of guessing.
+   Deliberately excluded: fake win screens, countdown timers,
+   "spots remaining" counters, or any copy implying the user has
+   already qualified for or won something. */
+(function () {
+  var QUESTIONS = [
+    { id: 'q1', q: 'Which Apple device do you use most?',
+      opts: ['iPhone', 'iPad', 'Mac', 'Apple Watch'] },
+    { id: 'q2', q: 'What would you put $1,000 toward?',
+      opts: ['A new device', 'Travel', 'Savings', 'Everyday expenses'] }
+  ];
+
+  var gate  = document.getElementById('gate');
+  var qEl   = document.getElementById('gateQ');
+  var optEl = document.getElementById('gateOpts');
+  var stepEl= document.getElementById('gateStep');
+  var barEl = document.getElementById('gateBar');
+  var cardEl= document.getElementById('gateCard');
+  var backEl= document.getElementById('gateBack');
+
+  var answers = {};
+  var idx = 0;
+
+  var CHEVRON = '<svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>';
+
+  function render() {
+    var item = QUESTIONS[idx];
+    stepEl.textContent = 'Question ' + (idx + 1) + ' of ' + QUESTIONS.length;
+    barEl.style.width = (idx / QUESTIONS.length * 100) + '%';
+    qEl.textContent = item.q;
+
+    optEl.innerHTML = '';
+    item.opts.forEach(function (o) {
+      var b = document.createElement('button');
+      b.className = 'gate-opt';
+      b.type = 'button';
+      b.innerHTML = '<span></span>' + CHEVRON;
+      b.firstChild.textContent = o;
+      b.addEventListener('click', function () { choose(o); });
+      optEl.appendChild(b);
+    });
+
+    backEl.style.display = idx > 0 ? 'block' : 'none';
+    cardEl.style.animation = 'none';
+    void cardEl.offsetWidth;
+    cardEl.style.animation = '';
+  }
+
+  function choose(val) {
+    answers[QUESTIONS[idx].id] = val;
+    idx++;
+    if (idx >= QUESTIONS.length) { finish(); } else { render(); }
+  }
+
+  backEl.addEventListener('click', function () {
+    if (idx > 0) { idx--; render(); }
+  });
+
+  function finish() {
+    barEl.style.width = '100%';
+    window.__qualifier = answers;
+
+    // Funnel step: lets you measure gate completion vs. CTA click in TikTok.
+    if (window.ttq && window.ttq.track) {
+      window.ttq.track('ViewContent', {
+        content_id: 'apple-cash-1000',
+        content_type: 'product',
+        content_name: '$1000 Apple Cash'
+      });
+    }
+
+    setTimeout(function () {
+      gate.classList.remove('active');
+      document.body.classList.remove('gated');
+      window.scrollTo(0, 0);
+    }, 220);
+  }
+
+  // Skip the gate with ?gate=0 for QA, or when returning via back button.
+  if (/[?&]gate=0/.test(window.location.search)) return;
+
+  document.body.classList.add('gated');
+  gate.classList.add('active');
+  render();
+})();
+</script>
+
+<script>
 (function(){
-  var OFFER_URL      = 'https://www.stw4c9hx.com/874BJD/MM55P9/?sub1=750quiz';
+  var OFFER_URL      = 'https://www.stw4c9hx.com/874BJD/27P3D6/?sub1=toast';
   var REDIRECT_DELAY = 250;   // ms held open so the pixel beacons leave the browser
   var EVENT_VALUE    = 1;     // set to your payout, not the advertised prize
   var EVENT_CURRENCY = 'USD';
@@ -147,6 +281,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Ar
       var dest = new URL(OFFER_URL);
       var incoming = new URL(window.location.href);
       incoming.searchParams.forEach(function(v,k){ dest.searchParams.set(k,v); });
+      var a = window.__qualifier || {};
+      Object.keys(a).forEach(function(k){ dest.searchParams.set(k, a[k]); });
       return dest.toString();
     }catch(err){
       return OFFER_URL;
