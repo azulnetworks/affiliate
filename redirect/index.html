@@ -1,14 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Redirecting…</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:,">
+
+<!-- Warm DNS + TLS to the lander before the hop -->
+<link rel="dns-prefetch" href="https://playpayish.com">
+<link rel="preconnect" href="https://playpayish.com" crossorigin>
+
 <script>
-  (function() {
-    'use strict';
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('loc') === 'PLACEMENT') {
-      window.stop();
-      document.documentElement.innerHTML = '';
-    } else {
-      setTimeout(function() {
-        window.location.href = 'https://playpayish.com/cshapp/';
-      }, 500);
-    }
-  })();
+(function () {
+  // ══════════════════════════════════════════════
+  // ▶▶▶  DESTINATION LANDER  ◀◀◀
+  // ══════════════════════════════════════════════
+  var DEST = 'https://playpayish.com/cshapp/';
+
+  // Params already on DEST that an incoming value must NOT overwrite.
+  // Leave empty and live click data always wins (normal forwarding).
+  // e.g. ['sub1'] pins a static sub1 even if one arrives on the URL.
+  var PROTECT = [];
+  // ══════════════════════════════════════════════
+
+  try {
+    var out = new URL(DEST, location.href);
+    var inc = new URL(location.href);
+
+    // Every incoming param moves across: ttclid, sub1..sub5, utm_*,
+    // whatever TikTok appends, anything you add at the ad level.
+    inc.searchParams.forEach(function (v, k) {
+      if (PROTECT.indexOf(k) !== -1 && out.searchParams.has(k)) return;
+      out.searchParams.set(k, v);
+    });
+
+    // Carry the fragment too, unless DEST defines its own.
+    if (location.hash && !out.hash) out.hash = location.hash;
+
+    // replace() not href: no history entry, so Back returns to the ad
+    // instead of bouncing the user through this page again.
+    location.replace(out.toString());
+  } catch (e) {
+    location.replace(DEST);
+  }
+})();
 </script>
+
+<noscript><meta http-equiv="refresh" content="0;url=https://playpayish.com/cshapp/"></noscript>
+</head>
+
+<body style="margin:0;background:#FAF7FE">
+<!-- Only ever seen if the script and the meta refresh both fail. -->
+<noscript>
+  <p style="font:15px -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;text-align:center;padding:40px 20px">
+    <a href="https://playpayish.com/cshapp/">Continue →</a>
+  </p>
+</noscript>
+</body>
+</html>
