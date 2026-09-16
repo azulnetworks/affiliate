@@ -4,15 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Playful — Play Games, Earn Rewards</title>
-<meta name="description" content="Answer 3 quick questions and get started earning rewards for playing games on your phone.">
+<meta name="description" content="Confirm your age and get started earning rewards for playing games on your phone.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0c0c0c">
 <link rel="icon" href="data:,">
 
-<!-- Warm the two hosts this page actually depends on -->
 <link rel="preconnect" href="https://analytics.tiktok.com" crossorigin>
-<link rel="dns-prefetch" href="https://trksy.org">
-<link rel="preconnect" href="https://trksy.org" crossorigin>
+<link rel="dns-prefetch" href="https://www.stw4c9hx.com">
+<link rel="preconnect" href="https://www.stw4c9hx.com" crossorigin>
 <link rel="preload" as="image" href="assets/playful-logo.webp">
 
 <!-- ===== Persist ttclid ===== -->
@@ -46,8 +45,7 @@
   ttq.load('DACR4DRC77UDHLL3ETS0');
   ttq.page();
 
-  /* ttq.track() only queues until events.js lands. Know when it's live so
-     the CTA doesn't navigate away on top of a queued event. */
+  /* ttq.track() only queues until events.js lands. */
   window.__ttReady = false;
   var el = d.querySelector('script[src*="analytics.tiktok.com"]');
   if (!el) { window.__ttReady = true; }
@@ -63,7 +61,7 @@
 :root{
   --bg:#0c0c0c; --bg-soft:#1c1c22;
   --fg:#f0f0f0; --muted:#8a8a8a;
-  --card:#161616; --border:#262626; --border-strong:#333;
+  --card:#161616; --border-strong:#333;
   --primary:#7c5ce7;
   --grad:linear-gradient(95deg,#8b6ff0,#7c5ce7 52%,#5d3fc4);
   --shadow:0 10px 30px rgba(0,0,0,.5);
@@ -93,10 +91,6 @@ img{display:block;max-width:100%}
 .brand{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:14px}
 .brand img{width:34px;height:34px;border-radius:10px;box-shadow:0 4px 14px rgba(124,92,231,.22)}
 .brand b{font-size:16px;font-weight:900;letter-spacing:-.02em}
-.bar{height:7px;border-radius:99px;background:var(--bg-soft);border:1px solid var(--border);overflow:hidden}
-.bar i{display:block;height:100%;width:0;border-radius:99px;background:var(--grad);transition:width .45s cubic-bezier(.16,1,.3,1)}
-.steplabel{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;color:var(--muted);margin-top:7px;letter-spacing:.04em}
-.steplabel.hidden{visibility:hidden}
 
 .stage{flex:1 1 auto;position:relative;min-height:0;display:flex}
 .screen{
@@ -112,22 +106,6 @@ img{display:block;max-width:100%}
 
 h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-height:1.06;margin:0;text-align:center}
 .sub{color:var(--muted);font-size:15px;line-height:1.5;text-align:center;margin:10px auto 22px;max-width:20rem}
-.q{font-size:clamp(20px,5.6vw,26px);font-weight:900;letter-spacing:-.02em;line-height:1.18;text-align:center;margin:0 0 4px}
-.qhint{font-size:13px;color:var(--muted);text-align:center;margin:0 0 18px}
-
-.opts{display:flex;flex-direction:column;gap:11px}
-.opt{
-  width:100%;text-align:left;font-family:inherit;font-size:16px;font-weight:700;color:var(--fg);
-  background:var(--card);border:1.5px solid var(--border-strong);border-radius:15px;
-  padding:16px 17px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;
-  box-shadow:var(--shadow);transition:transform .12s ease,border-color .15s ease,background .15s ease;
-}
-.opt .arrow{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;color:var(--primary);transition:background .15s,color .15s}
-.opt .arrow svg{width:14px;height:14px}
-.opt:hover{border-color:var(--primary)}
-.opt:active{transform:scale(.98)}
-.opt.chosen{border-color:transparent;background:var(--grad);color:#fff;box-shadow:0 12px 26px rgba(124,92,231,.34)}
-.opt.chosen .arrow{background:rgba(255,255,255,.25);color:#fff}
 
 .tick{width:64px;height:64px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 12px 30px rgba(124,92,231,.4)}
 .tick svg{width:34px;height:34px;color:#fff}
@@ -172,15 +150,12 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
 @media (max-height:680px){
   .brand{margin-bottom:10px}
   h1{font-size:clamp(24px,7vw,32px)}
-  .opt{padding:14px 16px;font-size:15px}
-  .opts{gap:9px}
   .tick{width:54px;height:54px;margin-bottom:10px}
   .cta{padding:15px 18px}
 }
 @media (max-height:580px){
   .sub{margin-top:8px}
-  .qhint{margin-bottom:12px}
-  .opt{padding:12px 15px}
+  .ag-card{padding:13px 15px;margin-bottom:16px}
 }
 @media(prefers-reduced-motion:reduce){
   .cta{animation:none}
@@ -200,11 +175,6 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
       <div class="brand">
         <img src="assets/playful-logo.webp" alt="Playful" width="34" height="34">
         <b>Playful</b>
-      </div>
-      <div class="bar"><i></i></div>
-      <div class="steplabel hidden">
-        <span class="stepQ">Question 1 of 3</span>
-        <span class="stepPct">0%</span>
       </div>
     </div>
 
@@ -231,31 +201,12 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
         <button class="btn-no ag-no">No, I am under 18</button>
       </section>
 
-      <!-- 1-3 — questions -->
+      <!-- 1 — offer -->
       <section class="screen" data-step="1">
-        <p class="q">Would you play a free game for 5 minutes if it paid you <span class="grad">real rewards</span>?</p>
-        <p class="qhint">Be honest — most people say yes.</p>
-        <div class="opts" data-qstep="1"></div>
-      </section>
-
-      <section class="screen" data-step="2">
-        <p class="q">Which games do you want to <span class="grad">start with</span>?</p>
-        <p class="qhint">Pick your vibe — new games unlock as you play.</p>
-        <div class="opts" data-qstep="2"></div>
-      </section>
-
-      <section class="screen" data-step="3">
-        <p class="q">The bigger rewards <span class="grad">unlock as you play</span>. Ready to start?</p>
-        <p class="qhint">Start with one game and more open up as you go.</p>
-        <div class="opts" data-qstep="3"></div>
-      </section>
-
-      <!-- 4 — result -->
-      <section class="screen" data-step="4">
         <div class="tick">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
         </div>
-        <h1>Your picks are <span class="grad">set</span></h1>
+        <h1>You're <span class="grad">good to go</span></h1>
         <p class="sub">Here's how the rewards build up once you start.</p>
         <div class="picks">
           <div class="picks-head">🔓 The more you play, the more unlocks</div>
@@ -269,8 +220,8 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
         <p class="finecta">Free to download · No card needed · 18+</p>
       </section>
 
-      <!-- 5 — under 18 -->
-      <section class="screen" data-step="5">
+      <!-- 2 — under 18 -->
+      <section class="screen" data-step="2">
         <div class="stop-ic">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         </div>
@@ -296,30 +247,19 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
 (function () {
   'use strict';
 
-  var Q1 = ["Yeah — sounds easy 💰", "If it actually pays — sure 👀"];
-  var Q2 = ["🎮 Action & adventure", "🧩 Puzzle & brain", "🎰 Casino & slots", "🏰 Strategy & builders"];
-  var Q3 = ["Yes — let's go ⚡", "Maybe later"];
-  var QSETS = { 1: Q1, 2: Q2, 3: Q3 };
-  var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
-
   var MAX_PIXEL_WAIT = 300;
 
   var wrap = document.getElementById('app');
   var OFFER_URL = wrap.dataset.offer;
-  var step = 0, answers = [], exitTimer = null, fired = false;
+  var step = 0, exitTimer = null, fired = false;
 
   var $ = function (s) { return wrap.querySelector(s); };
-  var bar = $('.bar i'), steplabel = $('.steplabel');
-  var stepQ = $('.stepQ'), stepPct = $('.stepPct');
 
   function track(ev, props, id) {
     if (!(window.ttq && window.ttq.track)) return;
     try { ttq.track(ev, props || {}, id ? { event_id: id } : undefined); } catch (e) {}
   }
 
-  /* Every incoming param moves to the offer — ttclid, sub1..n, utm_*.
-     Forwarding only `source` (as before) drops the click ID, and without
-     it TikTok can't tie a conversion back to the ad that paid for it. */
   function buildDest() {
     try {
       var out = new URL(OFFER_URL);
@@ -329,19 +269,6 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
       return out.toString();
     } catch (e) { return OFFER_URL; }
   }
-
-  wrap.querySelectorAll('.opts[data-qstep]').forEach(function (box) {
-    var qStep = parseInt(box.getAttribute('data-qstep'), 10);
-    QSETS[qStep].forEach(function (label, i) {
-      var b = document.createElement('button');
-      b.className = 'opt';
-      b.type = 'button';
-      b.innerHTML = '<span></span><span class="arrow">' + ARROW + '</span>';
-      b.firstChild.textContent = label;
-      b.addEventListener('click', function () { pick(qStep, i, label, b); });
-      box.appendChild(b);
-    });
-  });
 
   function screenEl(n) { return wrap.querySelector('.screen[data-step="' + n + '"]'); }
 
@@ -355,25 +282,7 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
     }
     next.classList.add('active');
     step = n;
-    updateProgress();
-    if (n === 4) track('ViewContent', { content_name: 'quiz_result' });
-  }
-
-  function updateProgress() {
-    var pct = step === 0 || step === 5 ? 0 : step >= 4 ? 100 : Math.round((step / 3) * 100);
-    bar.style.width = pct + '%';
-    steplabel.classList.toggle('hidden', !(step >= 1 && step <= 3));
-    stepQ.textContent = 'Question ' + Math.min(Math.max(step, 1), 3) + ' of 3';
-    stepPct.textContent = pct + '%';
-  }
-
-  function pick(qStep, i, label, btn) {
-    btn.parentNode.querySelectorAll('.opt').forEach(function (o) { o.classList.remove('chosen'); });
-    btn.classList.add('chosen');
-    answers[qStep - 1] = label;
-    track('ClickButton', { content_name: 'quiz_q' + qStep + '_' + i });
-    try { if (navigator.vibrate) navigator.vibrate(18); } catch (e) {}
-    setTimeout(function () { go(qStep + 1); }, 280);
+    if (n === 1) track('ViewContent', { content_name: 'offer_screen' });
   }
 
   function onCta() {
@@ -383,7 +292,7 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
     var dest = buildDest();
     var eid = 'c' + Date.now() + Math.random().toString(36).slice(2, 8);
     var props = {
-      content_id: 'playful-5022',
+      content_id: 'playful-l1b1f8',
       content_type: 'product',
       content_name: 'Playful install',
       ttclid: (window.getTTCLID && window.getTTCLID()) || ''
@@ -394,9 +303,6 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
     track('CompleteRegistration', props, eid + '-cr');
     track('Purchase', props, eid + '-pur');
 
-    /* Same-tab nav, not window.open — mobile blocks popups that aren't
-       a direct gesture result, and a blocked popup is a lost click.
-       Brief bounded wait so a cold pixel gets its beacons out first. */
     var waited = 0;
     (function settle() {
       if (window.__ttReady || waited >= MAX_PIXEL_WAIT) { location.href = dest; return; }
@@ -406,10 +312,8 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
   }
 
   $('.ag-yes').addEventListener('click', function () { track('ClickButton', { content_name: 'age_yes' }); go(1); });
-  $('.ag-no').addEventListener('click', function () { track('ClickButton', { content_name: 'age_no' }); go(5); });
+  $('.ag-no').addEventListener('click', function () { track('ClickButton', { content_name: 'age_no' }); go(2); });
   $('.resultCta').addEventListener('click', onCta);
-
-  updateProgress();
 })();
 </script>
 </body>
