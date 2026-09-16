@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Playful — Play Games, Earn Rewards</title>
-<meta name="description" content="Confirm your age and get started earning rewards for playing games on your phone.">
+<title>Playful — Complete Forms, Earn Rewards</title>
+<meta name="description" content="Confirm your age and get started earning rewards for completing forms on your phone.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0c0c0c">
 <link rel="icon" href="data:,">
@@ -130,7 +130,7 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
 @keyframes pulse{0%,100%{box-shadow:0 12px 28px rgba(124,92,231,.32)}50%{box-shadow:0 14px 36px rgba(124,92,231,.5)}}
 .finecta{text-align:center;font-size:12px;color:var(--muted);margin-top:9px}
 
-.ag-card{width:100%;background:var(--card);border:1px solid var(--border-strong);border-radius:16px;padding:16px 18px;margin-bottom:22px;text-align:left;box-shadow:var(--shadow)}
+.ag-card{width:100%;background:var(--card);border:1px solid var(--border-strong);border-radius:16px;padding:16px 18px;margin:24px 0 22px;text-align:left;box-shadow:var(--shadow)}
 .ag-item{display:flex;gap:11px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.5}
 .ag-item + .ag-item{margin-top:12px}
 .ag-item svg{width:18px;height:18px;flex-shrink:0;stroke:var(--primary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
@@ -155,7 +155,7 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
 }
 @media (max-height:580px){
   .sub{margin-top:8px}
-  .ag-card{padding:13px 15px;margin-bottom:16px}
+  .ag-card{padding:13px 15px;margin:16px 0}
 }
 @media(prefers-reduced-motion:reduce){
   .cta{animation:none}
@@ -183,7 +183,6 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
       <!-- 0 — age gate -->
       <section class="screen active" data-step="0">
         <h1>Are you <span class="grad">18+</span>?</h1>
-        <p class="sub">This offer is for adults only.</p>
         <div class="ag-card">
           <div class="ag-item">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
@@ -207,17 +206,17 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
         </div>
         <h1>You're <span class="grad">good to go</span></h1>
-        <p class="sub">Here's how the rewards build up once you start.</p>
+        <p class="sub">Here's how the rewards build up as you complete forms.</p>
         <div class="picks">
-          <div class="picks-head">🔓 The more you play, the more unlocks</div>
-          <div class="picks-flow"><span>1 game</span><i>→</i><span>3</span><i>→</i><span>6</span><i>→</i><b>full catalog</b></div>
-          <div class="picks-sub">Rewards depend on which games you play and how far you get. Payouts are set by the app, not by this page.</div>
+          <div class="picks-head">🔓 The more forms you complete, the more unlocks</div>
+          <div class="picks-flow"><span>1 form</span><i>→</i><span>3</span><i>→</i><span>6</span><i>→</i><b>full list</b></div>
+          <div class="picks-sub">Rewards depend on which forms you complete and how far you get. Payouts are set by the provider, not by this page.</div>
         </div>
         <button class="cta resultCta">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          Get the app
+          Start the forms
         </button>
-        <p class="finecta">Free to download · No card needed · 18+</p>
+        <p class="finecta">Free to start · No card needed · 18+</p>
       </section>
 
       <!-- 2 — under 18 -->
@@ -233,11 +232,11 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
 
     <div class="bottom">
       <div class="trust">
-        <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Free to play</span>
+        <span><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Free to start</span>
         <span><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>No card needed</span>
         <span><svg viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>18+</span>
       </div>
-      <p class="legal">Rewards are provided by the app, not by this site. Availability and payout amounts vary.</p>
+      <p class="legal">Rewards are provided by the offer provider, not by this site. Availability and payout amounts vary.</p>
     </div>
 
   </div>
@@ -294,11 +293,11 @@ h1{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:-.03em;line-hei
     var props = {
       content_id: 'playful-l1b1f8',
       content_type: 'product',
-      content_name: 'Playful install',
+      content_name: 'Playful forms',
       ttclid: (window.getTTCLID && window.getTTCLID()) || ''
     };
 
-    track('ClickButton', { content_name: 'get_the_app' });
+    track('ClickButton', { content_name: 'start_forms' });
     track('AddToCart', props, eid + '-atc');
     track('CompleteRegistration', props, eid + '-cr');
     track('Purchase', props, eid + '-pur');
