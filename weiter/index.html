@@ -8,8 +8,36 @@
 <meta name="theme-color" content="#0c0c0c">
 <link rel="icon" href="data:,">
 
+<link rel="preconnect" href="https://analytics.tiktok.com" crossorigin>
 <link rel="dns-prefetch" href="https://playpayish.com">
 <link rel="preconnect" href="https://playpayish.com" crossorigin>
+
+<!-- ===== TikTok Pixel ===== -->
+<script>
+!function (w, d, t) {
+  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
+  ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],
+  ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+  for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+  ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};
+  ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js";
+  ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};
+  var i=d.createElement("script");i.type="text/javascript";i.async=!0;i.src=r+"?sdkid="+e+"&lib="+t;
+  var a=d.getElementsByTagName("script")[0];a.parentNode.insertBefore(i,a)};
+  ttq.load('DACR4DRC77UDHLL3ETS0');
+  // Kein ttq.page() hier — die Landingpage feuert das bereits.
+  // Sonst zaehlt jeder Besucher doppelt.
+
+  window.__ttReady = false;
+  var el = d.querySelector('script[src*="analytics.tiktok.com"]');
+  if (!el) { window.__ttReady = true; }
+  else {
+    el.addEventListener('load',  function(){ window.__ttReady = true; });
+    el.addEventListener('error', function(){ window.__ttReady = true; });
+    setTimeout(function(){ window.__ttReady = true; }, 3000);
+  }
+}(window, document, 'ttq');
+</script>
 
 <style>
 :root{
@@ -115,7 +143,7 @@ h1{font-size:clamp(28px,8.5vw,40px);font-weight:900;letter-spacing:-.03em;line-h
   // ══════════════════════════════════════════════
   // ▶▶▶  ZIEL-LANDINGPAGE HIER EINTRAGEN  ◀◀◀
   // ══════════════════════════════════════════════
-  var DEST = 'https://playpayish.com/deutsch/';
+  var DEST = 'https://playpayish.com/green/';
   // ══════════════════════════════════════════════
 
   // Alle Parameter mitnehmen (ttclid, sub1...). Der externe Browser ist
@@ -176,9 +204,29 @@ h1{font-size:clamp(28px,8.5vw,40px);font-weight:900;letter-spacing:-.03em;line-h
     return;
   }
 
+  var fired = false;
   document.getElementById('ctaBtn').addEventListener('click', function (e) {
     e.preventDefault();
-    breakout(dest);
+    if (fired) return;
+    fired = true;
+
+    if (window.ttq && window.ttq.track) {
+      try {
+        ttq.track('ClickButton', {
+          content_name: 'open_in_browser',
+          ttclid: new URLSearchParams(location.search).get('ttclid') || ''
+        });
+      } catch (err) {}
+    }
+
+    // Kurz warten, falls das Pixel noch laedt — danach raus.
+    // Deckel niedrig: Custom-Scheme-Navigation will nah am Klick bleiben.
+    var waited = 0;
+    (function settle() {
+      if (window.__ttReady || waited >= 300) { breakout(dest); return; }
+      waited += 40;
+      setTimeout(settle, 40);
+    })();
   });
 })();
 </script>
