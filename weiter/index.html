@@ -44,8 +44,8 @@
   --bg:#0c0c0c; --bg-soft:#1c1c22;
   --fg:#f0f0f0; --muted:#8a8a8a;
   --card:#161616; --border-strong:#333;
-  --primary:#7c5ce7;
-  --grad:linear-gradient(95deg,#8b6ff0,#7c5ce7 52%,#5d3fc4);
+  --primary:#00D95F;
+  --grad:linear-gradient(95deg,#3FE87A,#00D95F 52%,#00A847);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;height:100dvh;margin:0;overscroll-behavior:none}
@@ -59,8 +59,8 @@ body{
 .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 
 .glow{position:fixed;border-radius:50%;filter:blur(80px);opacity:.5;pointer-events:none;z-index:0}
-.g1{width:380px;height:380px;background:radial-gradient(circle,rgba(124,92,231,.32),transparent 70%);top:-150px;left:50%;transform:translateX(-50%)}
-.g2{width:320px;height:320px;background:radial-gradient(circle,rgba(139,111,240,.22),transparent 70%);bottom:-150px;right:-120px}
+.g1{width:380px;height:380px;background:radial-gradient(circle,rgba(0,217,95,.32),transparent 70%);top:-150px;left:50%;transform:translateX(-50%)}
+.g2{width:320px;height:320px;background:radial-gradient(circle,rgba(63,232,122,.22),transparent 70%);bottom:-150px;right:-120px}
 
 .app{
   position:relative;z-index:1;min-height:100dvh;max-width:440px;margin:0 auto;
@@ -73,13 +73,13 @@ body{
 .icon{
   width:76px;height:76px;border-radius:50%;background:var(--grad);
   display:flex;align-items:center;justify-content:center;margin:0 auto 22px;
-  box-shadow:0 12px 34px rgba(124,92,231,.42);
+  box-shadow:0 12px 34px rgba(0,217,95,.42);
   animation:glowPulse 2.8s ease-in-out infinite;
 }
-.icon svg{width:36px;height:36px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.icon svg{width:36px;height:36px;stroke:#06240F;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 @keyframes glowPulse{
-  0%,100%{box-shadow:0 12px 34px rgba(124,92,231,.4)}
-  50%{box-shadow:0 14px 46px rgba(124,92,231,.62)}
+  0%,100%{box-shadow:0 12px 34px rgba(0,217,95,.4)}
+  50%{box-shadow:0 14px 46px rgba(0,217,95,.62)}
 }
 
 h1{font-size:clamp(28px,8.5vw,40px);font-weight:900;letter-spacing:-.03em;line-height:1.06;margin:0}
@@ -88,13 +88,13 @@ h1{font-size:clamp(28px,8.5vw,40px);font-weight:900;letter-spacing:-.03em;line-h
 .cta{
   display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
   padding:17px 20px;border:0;border-radius:15px;cursor:pointer;
-  font-family:inherit;font-size:17px;font-weight:800;color:#fff;background:var(--grad);
-  box-shadow:0 12px 28px rgba(124,92,231,.34);transition:transform .14s ease;
+  font-family:inherit;font-size:17px;font-weight:800;color:#06240F;background:var(--grad);
+  box-shadow:0 12px 28px rgba(0,217,95,.34);transition:transform .14s ease;
   animation:pulse 2.6s ease-in-out infinite;
 }
 .cta:active{transform:scale(.985)}
-.cta svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-@keyframes pulse{0%,100%{box-shadow:0 12px 28px rgba(124,92,231,.32)}50%{box-shadow:0 14px 36px rgba(124,92,231,.5)}}
+.cta svg{width:20px;height:20px;stroke:#06240F;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+@keyframes pulse{0%,100%{box-shadow:0 12px 28px rgba(0,217,95,.32)}50%{box-shadow:0 14px 36px rgba(0,217,95,.5)}}
 
 .chips{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:20px;font-size:12px;color:var(--muted);font-weight:600}
 .chips .dot{width:3px;height:3px;border-radius:50%;background:var(--border-strong)}
@@ -122,10 +122,10 @@ h1{font-size:clamp(28px,8.5vw,40px);font-weight:900;letter-spacing:-.03em;line-h
   </div>
 
   <h1>Im <span class="grad">Browser</span> öffnen</h1>
-  <p class="sub">Tippe auf Weiter, um diese Seite in deinem Browser zu öffnen — für das volle Erlebnis.</p>
+  <p class="sub">Tippe auf den Button, um diese Seite in deinem Browser zu öffnen — für das volle Erlebnis.</p>
 
   <button class="cta" id="ctaBtn">
-    <span>Weiter</span>
+    <span>Im Browser öffnen</span>
     <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
   </button>
 
