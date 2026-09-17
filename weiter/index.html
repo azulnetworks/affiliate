@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Im Browser öffnen</title>
+<meta name="description" content="Öffne diese Seite in deinem Browser, um fortzufahren.">
+<meta name="theme-color" content="#0c0c0c">
+<link rel="icon" href="data:,">
+
+<link rel="dns-prefetch" href="https://playpayish.com">
+<link rel="preconnect" href="https://playpayish.com" crossorigin>
+
+<style>
+:root{
+  --bg:#0c0c0c; --bg-soft:#1c1c22;
+  --fg:#f0f0f0; --muted:#8a8a8a;
+  --card:#161616; --border-strong:#333;
+  --primary:#7c5ce7;
+  --grad:linear-gradient(95deg,#8b6ff0,#7c5ce7 52%,#5d3fc4);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;height:100dvh;margin:0;overscroll-behavior:none}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  line-height:1.45;letter-spacing:-.01em;
+  -webkit-user-select:none;user-select:none;touch-action:manipulation;
+  -webkit-font-smoothing:antialiased;
+}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+.glow{position:fixed;border-radius:50%;filter:blur(80px);opacity:.5;pointer-events:none;z-index:0}
+.g1{width:380px;height:380px;background:radial-gradient(circle,rgba(124,92,231,.32),transparent 70%);top:-150px;left:50%;transform:translateX(-50%)}
+.g2{width:320px;height:320px;background:radial-gradient(circle,rgba(139,111,240,.22),transparent 70%);bottom:-150px;right:-120px}
+
+.app{
+  position:relative;z-index:1;min-height:100dvh;max-width:440px;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:calc(24px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom));
+  animation:fadeUp .45s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.icon{
+  width:76px;height:76px;border-radius:50%;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;margin:0 auto 22px;
+  box-shadow:0 12px 34px rgba(124,92,231,.42);
+  animation:glowPulse 2.8s ease-in-out infinite;
+}
+.icon svg{width:36px;height:36px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+@keyframes glowPulse{
+  0%,100%{box-shadow:0 12px 34px rgba(124,92,231,.4)}
+  50%{box-shadow:0 14px 46px rgba(124,92,231,.62)}
+}
+
+h1{font-size:clamp(28px,8.5vw,40px);font-weight:900;letter-spacing:-.03em;line-height:1.06;margin:0}
+.sub{color:var(--muted);font-size:15px;line-height:1.55;margin:12px auto 30px;max-width:20rem}
+
+.cta{
+  display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+  padding:17px 20px;border:0;border-radius:15px;cursor:pointer;
+  font-family:inherit;font-size:17px;font-weight:800;color:#fff;background:var(--grad);
+  box-shadow:0 12px 28px rgba(124,92,231,.34);transition:transform .14s ease;
+  animation:pulse 2.6s ease-in-out infinite;
+}
+.cta:active{transform:scale(.985)}
+.cta svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+@keyframes pulse{0%,100%{box-shadow:0 12px 28px rgba(124,92,231,.32)}50%{box-shadow:0 14px 36px rgba(124,92,231,.5)}}
+
+.chips{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:20px;font-size:12px;color:var(--muted);font-weight:600}
+.chips .dot{width:3px;height:3px;border-radius:50%;background:var(--border-strong)}
+.chips .sec{color:var(--primary)}
+
+@media (max-height:640px){
+  .icon{width:62px;height:62px;margin-bottom:16px}
+  .icon svg{width:30px;height:30px}
+  h1{font-size:clamp(24px,7.5vw,32px)}
+  .sub{margin-bottom:22px;font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  .cta,.icon{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+
+<div class="app">
+  <div class="icon">
+    <svg viewBox="0 0 24 24"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+  </div>
+
+  <h1>Im <span class="grad">Browser</span> öffnen</h1>
+  <p class="sub">Tippe auf Weiter, um diese Seite in deinem Browser zu öffnen — für das volle Erlebnis.</p>
+
+  <button class="cta" id="ctaBtn">
+    <span>Weiter</span>
+    <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </button>
+
+  <div class="chips">
+    <span>Safari</span>
+    <span class="dot"></span>
+    <span>Chrome</span>
+    <span class="dot"></span>
+    <span class="sec">Sicher</span>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ══════════════════════════════════════════════
+  // ▶▶▶  ZIEL-LANDINGPAGE HIER EINTRAGEN  ◀◀◀
+  // ══════════════════════════════════════════════
+  var DEST = 'https://playpayish.com/deutsch/';
+  // ══════════════════════════════════════════════
+
+  // Alle Parameter mitnehmen (ttclid, sub1...). Der externe Browser ist
+  // ein eigener Cookie-Jar — was nicht in der URL steht, geht verloren.
+  function withParams(url) {
+    try {
+      var d = new URL(url);
+      new URL(location.href).searchParams.forEach(function (v, k) {
+        if (k !== 'force') d.searchParams.set(k, v);
+      });
+      return d.toString();
+    } catch (e) { return url; }
+  }
+
+  function isInApp() {
+    var ua = (navigator.userAgent || '').toLowerCase();
+    var p = ['tiktok','bytedance','musical_ly','aweme','instagram','fbav','fb_iab','fban','fbios','fbss',
+             'snapchat','linkedinapp','twitter','pinterest','line/','micromessenger','kakaotalk'];
+    for (var i = 0; i < p.length; i++) { if (ua.indexOf(p[i]) !== -1) return true; }
+    return false;
+  }
+
+  // Fallback nur dann feuern, wenn der Handoff NICHT geklappt hat.
+  // Ohne das Abbrechen navigiert auch die Webview zum Ziel — ein Nutzer,
+  // zwei Aufrufe der Ziel-URL.
+  function armFallback(url) {
+    var t = setTimeout(function () { location.href = url; }, 800);
+    function cancel() { clearTimeout(t); }
+    document.addEventListener('visibilitychange', function () { if (document.hidden) cancel(); });
+    window.addEventListener('pagehide', cancel);
+    window.addEventListener('blur', cancel);
+  }
+
+  function breakout(url) {
+    var ua = (navigator.userAgent || '').toLowerCase();
+    if (/android/.test(ua)) {
+      var intent = 'intent://' + url.replace(/^https?:\/\//, '') +
+        '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' +
+        encodeURIComponent(url) + ';end';
+      try { (window.top || window).location.href = intent; }
+      catch (e) { location.href = intent; }
+      armFallback(url);
+    } else if (/iphone|ipad|ipod/.test(ua)) {
+      var safari = url.replace(/^https:\/\//, 'x-safari-https://');
+      try { (window.top || window).location.href = safari; }
+      catch (e) { location.href = safari; }
+      armFallback(url);
+    } else {
+      location.href = url;
+    }
+  }
+
+  var dest = withParams(DEST);
+
+  // Nicht in einer In-App-Webview? Dann direkt weiterleiten.
+  if (!isInApp() && !/[?&]force=1/.test(location.search)) {
+    location.replace(dest);
+    return;
+  }
+
+  document.getElementById('ctaBtn').addEventListener('click', function (e) {
+    e.preventDefault();
+    breakout(dest);
+  });
+})();
+</script>
+</body>
+</html>
