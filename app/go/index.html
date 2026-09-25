@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Screentime To Cash</title>
+<style>
+:root{
+  --pink:#FE2C55;
+  --cyan:#25F4EE;
+  --bg:#fff;
+  --ink:#161823;
+  --ink2:rgba(22,24,35,.55);
+  --ink3:rgba(22,24,35,.32);
+  --card:#f4f4f5;
+  --sep:rgba(22,24,35,.1);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+html,body{width:100%;height:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif;overflow:hidden;overscroll-behavior:none;touch-action:none}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;padding:32px 24px calc(env(safe-area-inset-bottom,0px) + 24px);opacity:0;pointer-events:none;transition:opacity .3s ease;background:var(--bg)}
+.screen.active{opacity:1;pointer-events:auto}
+.screen.dark{background:#000;color:#fff}
+
+.spacer{flex:1}
+.icon-badge{width:72px;height:72px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 22px}
+.icon-badge svg{width:38px;height:38px}
+.ib-pink{background:rgba(254,44,85,.12)}
+.ib-yellow{background:rgba(255,196,0,.15)}
+.ib-green{background:rgba(48,209,88,.15)}
+
+h1{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1.15;margin-bottom:12px}
+h1.center{text-align:center}
+.lead{font-size:15px;color:var(--ink2);line-height:1.55;margin-bottom:8px}
+.lead.center{text-align:center}
+.pink{color:var(--pink)}
+
+.btn{display:block;width:100%;padding:16px;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .1s,opacity .2s;margin-top:10px}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--pink);color:#fff}
+.btn-ghost{background:transparent;color:var(--ink2)}
+.btn.locked{background:var(--card);color:var(--ink3);pointer-events:none}
+
+.numlist{margin:8px 0 4px}
+.numrow{display:flex;align-items:center;gap:14px;padding:11px 0}
+.numdot{width:26px;height:26px;border-radius:50%;background:var(--pink);color:#fff;font-size:14px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.numrow span{font-size:16px;font-weight:500}
+
+.steps{display:flex;flex-direction:column;gap:12px;margin:6px 0}
+.step{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:14px;padding:15px}
+.step .snum{width:30px;height:30px;border-radius:50%;background:var(--pink);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step .stxt b{display:block;font-size:15px;font-weight:700}
+.step .stxt small{display:block;font-size:13px;color:var(--ink2);margin-top:2px}
+
+.wheels{display:flex;gap:10px;justify-content:center;margin:20px 0 8px}
+.wheel-col{flex:1;position:relative;height:180px;overflow:hidden}
+.wheel-col.narrow{flex:.7}
+.w-mask{position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(#fff,rgba(255,255,255,0) 32%,rgba(255,255,255,0) 68%,#fff)}
+.w-hl{position:absolute;top:50%;left:0;right:0;height:44px;transform:translateY(-50%);background:var(--card);border-radius:10px;z-index:0}
+.w-track{position:absolute;top:0;left:0;right:0;z-index:1;transition:transform .2s ease-out}
+.w-item{height:44px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:500;color:var(--ink3);transition:color .12s,font-weight .12s}
+.w-item.sel{color:var(--ink);font-weight:700}
+
+.load-wrap{margin:auto;text-align:center;display:flex;flex-direction:column;align-items:center}
+.ring{width:44px;height:44px;border-radius:50%;border:3px solid var(--sep);border-top-color:var(--pink);animation:spin .8s linear infinite;margin-bottom:22px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.load-title{font-size:15px;color:var(--ink2);margin-bottom:20px}
+.load-bar-wrap{width:220px;height:5px;background:var(--sep);border-radius:4px;overflow:hidden;margin:0 0 14px}
+.load-bar{height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,var(--cyan),var(--pink));animation:load-fill 1.5s ease-in-out forwards}
+@keyframes load-fill{0%{width:0}72%{width:78%}100%{width:100%}}
+.app-badge{width:74px;height:74px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:6px auto 12px}
+.app-name{font-size:17px;font-weight:700}
+.app-id{font-size:12px;color:var(--ink3);margin-top:2px}
+
+.ret-wrap{margin:auto;text-align:center;max-width:280px}
+.bell{width:56px;height:56px;margin:0 auto 22px;color:var(--pink)}
+.ret-wrap p{font-size:18px;font-weight:600;line-height:1.4}
+</style>
+</head>
+<body>
+
+<!-- Screen L0: Intro loading -->
+<div class="screen active" id="s_loadIntro">
+  <div class="load-wrap">
+    <div class="ring"></div>
+    <div class="load-title">Loading</div>
+  </div>
+</div>
+
+<!-- Screen 0: Age intro -->
+<div class="screen" id="s_ageIntro">
+  <div class="spacer"></div>
+  <div class="icon-badge ib-pink">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 1 4 1 2.5-1 4-1 2.5 1 4 1 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v2M12 8v2M17 8v2"/><path d="M7 4h.01M12 3h.01M17 4h.01"/></svg>
+  </div>
+  <h1 class="center">Confirm your age</h1>
+  <p class="lead center">To participate in our <b class="pink">Screentime To Cash</b> program you must be at least 18 years old. Verify your age to continue.</p>
+  <div class="spacer"></div>
+  <button class="btn btn-primary" data-next="s_birthday" data-ev="ViewContent">Continue</button>
+</div>
+
+<!-- Screen 1: Birthday (3 wheels) -->
+<div class="screen" id="s_birthday">
+  <div style="height:8px"></div>
+  <h1>When's your birthday?</h1>
+  <p class="lead">We may automatically verify the age you input against your account.</p>
+  <div class="wheels">
+    <div class="wheel-col" id="wMonth"><div class="w-mask"></div><div class="w-hl"></div><div class="w-track"></div></div>
+    <div class="wheel-col narrow" id="wDay"><div class="w-mask"></div><div class="w-hl"></div><div class="w-track"></div></div>
+    <div class="wheel-col narrow" id="wYear"><div class="w-mask"></div><div class="w-hl"></div><div class="w-track"></div></div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn locked" id="bdayBtn">Confirm</button>
+</div>
+
+<!-- Screen L2: Loading after birthday -->
+<div class="screen" id="s_load2">
+  <div class="load-wrap">
+    <div class="ring"></div>
+    <div class="load-bar-wrap"><div class="load-bar"></div></div>
+    <div class="load-title">Preparing your rewards…</div>
+  </div>
+</div>
+
+<!-- Screen 2: Congrats -->
+<div class="screen" id="s_congrats">
+  <div class="spacer"></div>
+  <div class="icon-badge ib-yellow">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01M22 8h.01M15 2h.01M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11-.11.7-.72 1.22-1.43 1.22H17"/><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7"/></svg>
+  </div>
+  <h1 class="center">Congratulations!</h1>
+  <p class="lead center">You have been selected for our <b class="pink">Screentime To Cash</b> program.</p>
+  <div class="numlist">
+    <div class="numrow"><div class="numdot">1</div><span>Confirm your eligibility</span></div>
+    <div class="numrow"><div class="numdot">2</div><span>Download our partner app</span></div>
+    <div class="numrow"><div class="numdot">3</div><span>Claim your cash reward</span></div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn btn-primary" data-next="s_final" data-ev="AddToCart">Start Now</button>
+</div>
+
+<!-- Screen 3: Final steps -->
+<div class="screen" id="s_final">
+  <div style="height:8px"></div>
+  <div class="icon-badge ib-pink">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg>
+  </div>
+  <h1 class="center">Final Steps</h1>
+  <p class="lead center">Complete these steps to finish your enrollment</p>
+  <div class="steps">
+    <div class="step"><div class="snum">1</div><div class="stxt"><b>Install Partner App</b><small>Download and install the application</small></div></div>
+    <div class="step"><div class="snum">2</div><div class="stxt"><b>Sign Up</b><small>Create your new account</small></div></div>
+    <div class="step"><div class="snum">3</div><div class="stxt"><b>Complete Setup</b><small>Achieve in-app Level 1</small></div></div>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn btn-primary" id="readyBtn" data-ev="InitiateCheckout">I'm Ready</button>
+</div>
+
+<!-- Screen 4: App store loading -->
+<div class="screen" id="s_store">
+  <div class="load-wrap">
+    <div class="ring"></div>
+    <div class="load-title">Opening App Store…</div>
+  </div>
+</div>
+
+<!-- Screen 5: Return trap -->
+<div class="screen dark" id="s_return">
+  <div class="ret-wrap">
+    <div class="bell">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+    </div>
+    <p>You will receive a notification once you have been enrolled.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* ========================================================
+   *  FUNNEL — Screens, Tracking, Offer-Redirect
+   *  Gleicher _K wie in der Gate-Seite!
+   * ======================================================== */
+  var _K='stc2026';
+
+  // --- Hash (muss identisch zur Gate sein) ---
+  function _dh(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h)+s.charCodeAt(i);return h>>>0;}
+
+  // --- URL-Params ---
+  var p=new URLSearchParams(location.search);
+  var _preview=p.get('preview');
+  var _keyAccess=p.get('key')===_K;
+  var sub_id=p.get('sub_id')||(Date.now().toString(36)+Math.random().toString(36).slice(2,6));
+  var ttclid=p.get('ttclid')||'';
+  var content_id=p.get('cid')||'default';
+  var tok=p.get('t')||'';
+
+  // --- Token-Validierung (30s Fenster) ---
+  var tokenValid=false;
+  if(tok){
+    try{
+      var dec=atob(tok).split('.');
+      var ts=parseInt(dec[0]);
+      var rh=parseInt(dec[1]);
+      if(_dh(ts+_K)===rh && Date.now()-ts<30000) tokenValid=true;
+    }catch(e){}
+  }
+
+  // --- Zugang erlaubt? ---
+  var allowed=tokenValid||_keyAccess||_preview;
+
+  // --- Bounce ---
+  function bounce(){
+    try{window.location.href='snssdk1233://feed';}catch(e){}
+    setTimeout(function(){window.location.href='/lp/';},600);
+  }
+
+  if(!allowed){bounce();return;}
+
+  // --- Scroll/Swipe Lock (nicht im Preview) ---
+  if(!_preview){
+    ['touchmove','gesturestart','gesturechange','gestureend','wheel','mousewheel','DOMMouseScroll','dragstart','selectstart'].forEach(function(e){
+      document.addEventListener(e,function(ev){
+        if(!ev.target.closest('.wheel-col')) ev.preventDefault();
+      },{passive:false});
+    });
+  }
+
+  // --- TikTok Pixel (nur hier, nicht in der Gate) ---
+  (function loadPixel(){
+    var s=document.createElement('script');
+    s.async=true;
+    s.src='https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=DARBND3C77UA02BT2DK0&lib=ttq';
+    document.head.appendChild(s);
+    window.ttq=window.ttq||[];
+    var methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
+    ttq.methods=methods;
+    ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)));};};
+    for(var i=0;i<methods.length;i++) ttq.setAndDefer(ttq,methods[i]);
+    ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<methods.length;n++)ttq.setAndDefer(e,methods[n]);return e;};
+    ttq.load=function(e,n){ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u='https://analytics.tiktok.com/i18n/pixel/events.js';ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};};
+    ttq.load('DARBND3C77UA02BT2DK0');
+    ttq.page();
+    try{ttq.identify({external_id:sub_id});}catch(e){}
+  })();
+
+  // --- Tracking-Helper ---
+  function fire(ev){
+    if(!ev) return;
+    try{ttq.track(ev,{content_id:content_id,content_type:'funnel',description:sub_id});}catch(e){}
+  }
+
+  // --- Screen-Navigation ---
+  function show(id){
+    document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+    var el=document.getElementById(id);
+    if(el) el.classList.add('active');
+  }
+
+  // Buttons mit data-next
+  document.querySelectorAll('[data-next]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      if(btn.classList.contains('locked')) return;
+      fire(btn.getAttribute('data-ev'));
+      show(btn.getAttribute('data-next'));
+    });
+  });
+
+  // --- Wheel-Factory ---
+  var ITEM=44,VH=180,CTR=VH/2-ITEM/2;
+  function makeWheel(colId,items,defIdx,onChange){
+    var col=document.getElementById(colId);
+    var track=col.querySelector('.w-track');
+    items.forEach(function(v){
+      var d=document.createElement('div');
+      d.className='w-item';
+      d.textContent=v;
+      track.appendChild(d);
+    });
+    var minOff=CTR-(items.length-1)*ITEM,maxOff=CTR;
+    var offset=CTR-defIdx*ITEM,sel=-1,startY=0,startOff=0,dragging=false,touched=false;
+    function render(){track.style.transform='translateY('+offset+'px)';}
+    function setSel(i){
+      i=Math.max(0,Math.min(items.length-1,i));
+      if(i!==sel){
+        sel=i;
+        var kids=track.children;
+        for(var k=0;k<kids.length;k++) kids[k].classList.toggle('sel',k===i);
+        if(onChange) onChange(items[i],i,touched);
+      }
+    }
+    function snap(){
+      var i=Math.round((CTR-offset)/ITEM);
+      i=Math.max(0,Math.min(items.length-1,i));
+      offset=CTR-i*ITEM;
+      track.style.transition='transform .2s ease-out';render();setSel(i);
+    }
+    render();setSel(defIdx);
+    function start(y){track.style.transition='none';startY=y;startOff=offset;dragging=true;}
+    function move(y){
+      if(!dragging)return;
+      touched=true;
+      offset=Math.max(minOff,Math.min(maxOff,startOff+(y-startY)));
+      render();
+      var i=Math.round((CTR-offset)/ITEM);setSel(i);
+    }
+    function end(){if(dragging){dragging=false;snap();}}
+    col.addEventListener('touchstart',function(e){start(e.touches[0].clientY);},{passive:true});
+    col.addEventListener('touchmove',function(e){e.preventDefault();move(e.touches[0].clientY);},{passive:false});
+    col.addEventListener('touchend',end);
+    col.addEventListener('mousedown',function(e){start(e.clientY);});
+    window.addEventListener('mousemove',function(e){move(e.clientY);});
+    window.addEventListener('mouseup',end);
+    return{get:function(){return items[sel];},touched:function(){return touched;}};
+  }
+
+  var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var DAYS=[];for(var dd=1;dd<=31;dd++)DAYS.push(dd);
+  // 18+ → starte bei 2008 (18 Jahre vor 2026)
+  var CUR=2026;
+  var YEARS=[];for(var yy=CUR-18;yy>=1940;yy--)YEARS.push(yy);
+
+  var anyTouched=false;
+  function onWheelChange(v,i,touched){
+    if(anyTouched||!touched)return;
+    anyTouched=true;
+    document.getElementById('bdayBtn').classList.remove('locked');
+    document.getElementById('bdayBtn').classList.add('btn-primary');
+  }
+  var wM=makeWheel('wMonth',MONTHS,5,onWheelChange);
+  var wD=makeWheel('wDay',DAYS,16,onWheelChange);
+  var wY=makeWheel('wYear',YEARS,8,onWheelChange);
+
+  // Birthday-Confirm → Loading → Congrats
+  document.getElementById('bdayBtn').addEventListener('click',function(){
+    if(this.classList.contains('locked'))return;
+    fire('Search');
+    show('s_load2');
+    setTimeout(function(){show('s_congrats');},1500);
+  });
+
+  // --- Age-Bucket (korrigiert: lueckenlos) ---
+  function getBucket(){
+    var age=CUR-(wY.get()||2000);
+    if(age<21) return'18_20';
+    if(age<=24) return'21_24';
+    if(age<=30) return'25_30';
+    if(age<=40) return'31_40';
+    if(age<=50) return'41_50';
+    return'51_plus';
+  }
+
+  // --- Offer-URL (obfuskiert, zur Laufzeit zusammengebaut) ---
+  function buildOffer(){
+    var h='stw4'+'c9hx'+'.com';
+    var path='/874'+'BJD/25'+'S9S6X/';
+    var url='https://www.'+h+path;
+    url+='?sub1='+encodeURIComponent(sub_id);
+    if(ttclid) url+='&sub2='+encodeURIComponent(ttclid);
+    url+='&sub3='+encodeURIComponent(getBucket());
+    url+='&sub4='+encodeURIComponent(content_id);
+    return url;
+  }
+
+  // --- "I'm Ready" → Redirect + Return-Trap ---
+  var redirected=false;
+  document.getElementById('readyBtn').addEventListener('click',function(){
+    fire('InitiateCheckout');
+    show('s_store');
+
+    // Return-Trap: alle 4 Events
+    function armReturn(){
+      if(redirected){window.location.href='snssdk1233://feed';}
+    }
+    document.addEventListener('visibilitychange',function(){
+      if(!document.hidden&&redirected) armReturn();
+    });
+    window.addEventListener('focus',armReturn);
+    window.addEventListener('pagehide',function(){redirected=true;});
+    window.addEventListener('blur',function(){
+      // blur nach redirect → flag setzen
+      if(redirected) return;
+      setTimeout(function(){redirected=true;},200);
+    });
+
+    // Redirect-Timer → Offer
+    setTimeout(function(){
+      redirected=true;
+      show('s_return');
+      fire('CompleteRegistration');
+      window.location.href=buildOffer();
+    },1700);
+  });
+
+  // --- Preview-Modus (alle Screens gestackt) ---
+  if(_preview){
+    var labels={
+      s_loadIntro:'0 · Intro Loading',
+      s_ageIntro:'1 · Age Gate (18+)',
+      s_birthday:'2 · Birthday Wheel',
+      s_load2:'2b · Loading',
+      s_congrats:'3 · Congrats',
+      s_final:'4 · Final Steps',
+      s_store:'5 · App Store',
+      s_return:'6 · Return Trap'
+    };
+    try{document.body.style.cssText='overflow:auto;height:auto;touch-action:auto;background:#e5e5e7';}catch(e){}
+    document.querySelectorAll('.screen').forEach(function(s){
+      s.classList.add('active');
+      s.style.position='relative';
+      s.style.opacity='1';
+      s.style.height='640px';
+      s.style.maxWidth='380px';
+      s.style.margin='18px auto';
+      s.style.borderRadius='28px';
+      s.style.boxShadow='0 6px 30px rgba(0,0,0,.18)';
+      s.style.overflow='hidden';
+      var tag=document.createElement('div');
+      tag.textContent=labels[s.id]||s.id;
+      tag.style.cssText='position:absolute;top:10px;left:12px;z-index:9;font:600 11px system-ui;color:#fff;background:rgba(0,0,0,.45);padding:3px 9px;border-radius:20px';
+      s.appendChild(tag);
+    });
+    return;
+  }
+
+  // --- Flow starten ---
+  setTimeout(function(){show('s_ageIntro');},1700);
+
+})();
+</script>
+</body>
+</html>
