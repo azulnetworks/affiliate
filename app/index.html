@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Loading…</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#fff;overflow:hidden}
+.g{display:flex;align-items:center;justify-content:center;height:100%}
+.r{width:36px;height:36px;border-radius:50%;border:3px solid rgba(22,24,35,.1);border-top-color:#FE2C55;animation:s .7s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="g"><div class="r"></div></div>
+<script>
+(function(){
+  /* ========================================================
+   *  GATE — nur Cloaking-Logik, kein Funnel-Content
+   *  Ändere _K zu deinem eigenen geheimen Key
+   * ======================================================== */
+  var _K='stc2026';
+
+  // --- Hash-Funktion (djb2) ---
+  function _dh(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h)+s.charCodeAt(i);return h>>>0;}
+
+  // --- URL-Params lesen ---
+  var p=new URLSearchParams(location.search);
+  var sub_id=p.get('sub_id')||p.get('sub1')||(Date.now().toString(36)+Math.random().toString(36).slice(2,6));
+  var ttclid=p.get('ttclid')||p.get('ttp')||'';
+  var ua=navigator.userAgent;
+
+  // --- Bounce-Ziele ---
+  function bounce(){
+    try{window.location.href='snssdk1233://feed';}catch(e){}
+    setTimeout(function(){window.location.href='/lp/';},600);
+  }
+
+  // ===========================================
+  //  GATE-CHECKS (alle muessen bestanden werden)
+  // ===========================================
+
+  // 1. Geheimer Testmodus (statt ?debug)
+  var testMode=p.get('key')===_K;
+
+  // 2. TikTok In-App-Browser (UA)
+  var inTikTok=/BytedanceWebview|musical_ly|Trill|ByteFullApp|TikTok|Bytedance/i.test(ua);
+
+  // 3. Echte ttclid (kein Makro-Platzhalter)
+  var realTtclid=!!ttclid&&!/(__|[{}])/.test(ttclid);
+
+  // 4. Referrer von TikTok (neuer Check)
+  var ref=document.referrer||'';
+  var tikTokRef=/tiktok\.com|vm\.tiktok\.com|bytedance/i.test(ref);
+
+  // --- Positiv-Signal: mindestens eins muss zutreffen ---
+  var hasPositive=testMode||inTikTok||realTtclid||tikTokRef;
+
+  // --- Negativ-Signale: wenn eins zutrifft → sofort bounce ---
+  var isBot=false;
+  // navigator.webdriver (Puppeteer, Playwright, Selenium)
+  if(navigator.webdriver===true) isBot=true;
+  // Unrealistische Viewport-Größe (Headless-Default)
+  if(screen.width<300||screen.height<300) isBot=true;
+
+  // --- Entscheidung ---
+  if(isBot||!hasPositive){
+    bounce();
+    return;
+  }
+
+  // ===========================================
+  //  TOKEN generieren & zum Funnel weiterleiten
+  // ===========================================
+  var ts=Date.now();
+  var tok=btoa(ts+'.'+_dh(ts+_K));
+
+  var isIOS=/iPhone|iPad|iPod/i.test(ua);
+  var isAndroid=/Android/i.test(ua);
+  var cid=isIOS?'ios':isAndroid?'android':'desktop';
+
+  var dest='/go/?t='+encodeURIComponent(tok);
+  dest+='&sub_id='+encodeURIComponent(sub_id);
+  if(ttclid) dest+='&ttclid='+encodeURIComponent(ttclid);
+  dest+='&cid='+encodeURIComponent(cid);
+
+  window.location.replace(dest);
+
+})();
+</script>
+</body>
+</html>
