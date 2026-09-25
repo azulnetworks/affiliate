@@ -3,91 +3,338 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Loading…</title>
+<title>Wanderly — Curated City Walks & Local Guides</title>
+<meta name="description" content="Discover hidden gems in your city with Wanderly. Handpicked walking tours, local food spots, and insider guides curated by real locals.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
+:root{
+  --olive:#3d5a3e;
+  --olive-soft:rgba(61,90,62,.08);
+  --sand:#f5f0e8;
+  --terracotta:#c4704b;
+  --terra-soft:rgba(196,112,75,.1);
+  --ink:#1a1a1a;
+  --ink2:rgba(26,26,26,.6);
+  --ink3:rgba(26,26,26,.38);
+  --bg:#fefcf9;
+  --white:#fff;
+  --sep:rgba(26,26,26,.07);
+  --radius:14px;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;background:#fff;overflow:hidden}
-.g{display:flex;align-items:center;justify-content:center;height:100%}
-.r{width:36px;height:36px;border-radius:50%;border:3px solid rgba(22,24,35,.1);border-top-color:#FE2C55;animation:s .7s linear infinite}
-@keyframes s{to{transform:rotate(360deg)}}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+.serif{font-family:'DM Serif Display',serif}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:50;background:rgba(254,252,249,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--sep)}
+.nav-inner{max-width:1080px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo-mark{width:34px;height:34px;border-radius:50%;background:var(--olive);display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:18px;height:18px}
+.logo-text{font-family:'DM Serif Display',serif;font-size:18px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{font-size:14px;font-weight:500;color:var(--ink2);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{background:var(--olive);color:#fff !important;padding:9px 20px;border-radius:99px;font-weight:600 !important;font-size:13px !important}
+
+/* HERO */
+.hero{max-width:1080px;margin:0 auto;padding:80px 24px 48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.hero-text{max-width:480px}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--olive-soft);color:var(--olive);font-size:12px;font-weight:600;padding:5px 12px;border-radius:99px;margin-bottom:20px;letter-spacing:.3px;text-transform:uppercase}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(34px,5vw,52px);line-height:1.1;letter-spacing:-.5px;margin-bottom:18px}
+.hero h1 em{font-style:italic;color:var(--terracotta)}
+.hero-sub{font-size:17px;color:var(--ink2);line-height:1.65;margin-bottom:30px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:99px;font-size:14px;font-weight:600;text-decoration:none;transition:transform .1s,opacity .15s;border:none;cursor:pointer;font-family:inherit}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--olive);color:#fff}
+.btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--sep)}
+.hero-mosaic{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hero-img{border-radius:var(--radius);overflow:hidden;aspect-ratio:3/4;position:relative}
+.hero-img:nth-child(2){margin-top:32px}
+.hero-img .hi-bg{width:100%;height:100%;object-fit:cover}
+.hi-fill{width:100%;height:100%;display:flex;align-items:flex-end;padding:14px}
+.hi-1{background:linear-gradient(135deg,#b8c9a3,#7a9e6e)}
+.hi-2{background:linear-gradient(135deg,#dfc8a8,#c4a77d)}
+.hi-label{font-size:12px;font-weight:600;color:#fff;background:rgba(0,0,0,.3);backdrop-filter:blur(6px);padding:5px 11px;border-radius:99px}
+
+/* TRUSTED */
+.trusted{max-width:1080px;margin:0 auto;padding:24px 24px 48px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.trusted-label{font-size:12px;color:var(--ink3);font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+.trusted-logos{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.trusted-logos span{font-size:14px;font-weight:600;color:var(--ink3);letter-spacing:.3px}
+
+/* CITIES */
+.cities{padding:64px 24px;background:var(--sand)}
+.cities-inner{max-width:1080px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:44px}
+.section-header h2{font-family:'DM Serif Display',serif;font-size:30px;margin-bottom:8px}
+.section-header p{font-size:15px;color:var(--ink2);max-width:440px;margin:0 auto}
+.city-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.city-card{background:var(--white);border-radius:var(--radius);overflow:hidden;transition:box-shadow .2s;text-decoration:none;color:var(--ink)}
+.city-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.08)}
+.city-thumb{height:160px;position:relative;overflow:hidden}
+.ct-fill{width:100%;height:100%;display:flex;align-items:flex-end;padding:12px}
+.ct-1{background:linear-gradient(135deg,#8fb3c9,#5b8fa8)}
+.ct-2{background:linear-gradient(135deg,#c9a88f,#a87d5b)}
+.ct-3{background:linear-gradient(135deg,#a3b88f,#7a9c5e)}
+.ct-4{background:linear-gradient(135deg,#c9b08f,#b8956a)}
+.ct-badge{font-size:11px;font-weight:600;color:#fff;background:rgba(0,0,0,.28);backdrop-filter:blur(6px);padding:4px 10px;border-radius:99px}
+.city-info{padding:18px 16px}
+.city-info h3{font-size:16px;font-weight:700;margin-bottom:4px}
+.city-meta{font-size:13px;color:var(--ink2)}
+.city-meta span{margin-right:12px}
+
+/* FEATURES */
+.features{padding:72px 24px}
+.features-inner{max-width:1080px;margin:0 auto}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.feat{padding:28px 24px;border-radius:var(--radius);border:1px solid var(--sep);transition:border-color .2s}
+.feat:hover{border-color:rgba(26,26,26,.15)}
+.feat-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.feat-icon svg{width:22px;height:22px}
+.fi-olive{background:var(--olive-soft);color:var(--olive)}
+.fi-terra{background:var(--terra-soft);color:var(--terracotta)}
+.fi-sand{background:rgba(196,168,120,.12);color:#8a7040}
+.feat h3{font-size:16px;font-weight:700;margin-bottom:6px}
+.feat p{font-size:14px;color:var(--ink2);line-height:1.6}
+
+/* TESTIMONIALS */
+.reviews{padding:72px 24px;background:var(--sand)}
+.reviews-inner{max-width:1080px;margin:0 auto}
+.rev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.rev-card{background:var(--white);border-radius:var(--radius);padding:24px}
+.rev-stars{color:var(--terracotta);font-size:13px;letter-spacing:2px;margin-bottom:10px}
+.rev-quote{font-size:15px;line-height:1.6;margin-bottom:16px;font-style:italic;color:var(--ink)}
+.rev-author{display:flex;align-items:center;gap:10px}
+.rev-avatar{width:36px;height:36px;border-radius:50%;background:var(--olive);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:700}
+.rev-name{font-size:13px;font-weight:600}
+.rev-loc{font-size:12px;color:var(--ink3)}
+
+/* FAQ */
+.faq{max-width:720px;margin:0 auto;padding:72px 24px}
+.faq-item{border-bottom:1px solid var(--sep);padding:18px 0;cursor:pointer}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600;gap:12px}
+.faq-q svg{width:18px;height:18px;color:var(--ink3);transition:transform .2s;flex-shrink:0}
+.faq-item.open .faq-q svg{transform:rotate(45deg)}
+.faq-a{font-size:14px;color:var(--ink2);line-height:1.6;max-height:0;overflow:hidden;transition:max-height .25s ease,padding .25s}
+.faq-item.open .faq-a{max-height:200px;padding-top:10px}
+
+/* CTA */
+.cta{text-align:center;padding:72px 24px;background:var(--olive);color:#fff;border-radius:24px;max-width:1032px;margin:0 auto 64px}
+.cta h2{font-family:'DM Serif Display',serif;font-size:30px;margin-bottom:10px}
+.cta p{font-size:15px;opacity:.75;margin-bottom:26px;max-width:380px;margin-left:auto;margin-right:auto}
+.btn-white{background:#fff;color:var(--olive);font-weight:700}
+
+/* FOOTER */
+footer{border-top:1px solid var(--sep);padding:28px 24px;text-align:center}
+.foot-inner{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.foot-links{display:flex;gap:24px;flex-wrap:wrap}
+.foot-links a{font-size:13px;color:var(--ink3);text-decoration:none}
+.foot-links a:hover{color:var(--ink2)}
+.foot-copy{font-size:12px;color:var(--ink3)}
+
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;padding:48px 24px 32px}
+  .hero-mosaic{max-width:320px}
+  .nav-links a:not(.nav-cta){display:none}
+  .trusted{justify-content:center;text-align:center}
+  .cta{margin:0 16px 48px;border-radius:20px}
+  .foot-inner{flex-direction:column;text-align:center}
+}
 </style>
 </head>
 <body>
-<div class="g"><div class="r"></div></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <span class="logo-text">Wanderly</span>
+    </a>
+    <div class="nav-links">
+      <a href="#cities">Destinations</a>
+      <a href="#how">How It Works</a>
+      <a href="#faq">FAQ</a>
+      <a href="#" class="nav-cta">Explore Walks</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-tag">🌿 Over 200 curated routes</div>
+    <h1>Walk like a <em>local,</em> not a tourist</h1>
+    <p class="hero-sub">Handpicked city walks curated by the people who actually live there. Skip the crowds, find the real gems, and experience each neighborhood the way it's meant to be explored.</p>
+    <div class="hero-actions">
+      <a href="#cities" class="btn btn-primary">Browse Destinations</a>
+      <a href="#how" class="btn btn-outline">How It Works</a>
+    </div>
+  </div>
+  <div class="hero-mosaic">
+    <div class="hero-img"><div class="hi-fill hi-1"><span class="hi-label">📍 Lisbon</span></div></div>
+    <div class="hero-img"><div class="hi-fill hi-2"><span class="hi-label">📍 Kyoto</span></div></div>
+  </div>
+</section>
+
+<section class="trusted">
+  <span class="trusted-label">Featured in</span>
+  <div class="trusted-logos">
+    <span>Condé Nast Traveler</span>
+    <span>·</span>
+    <span>Monocle</span>
+    <span>·</span>
+    <span>Lonely Planet</span>
+    <span>·</span>
+    <span>AFAR</span>
+  </div>
+</section>
+
+<section class="cities" id="cities">
+  <div class="cities-inner">
+    <div class="section-header">
+      <h2>Popular destinations</h2>
+      <p>From cobblestone backstreets to hidden rooftop bars — every walk tells a story.</p>
+    </div>
+    <div class="city-grid">
+      <a href="#" class="city-card">
+        <div class="city-thumb"><div class="ct-fill ct-1"><span class="ct-badge">12 walks</span></div></div>
+        <div class="city-info"><h3>Lisbon, Portugal</h3><p class="city-meta"><span>🕐 1.5–3 hrs</span><span>⭐ 4.9</span></p></div>
+      </a>
+      <a href="#" class="city-card">
+        <div class="city-thumb"><div class="ct-fill ct-2"><span class="ct-badge">9 walks</span></div></div>
+        <div class="city-info"><h3>Kyoto, Japan</h3><p class="city-meta"><span>🕐 2–4 hrs</span><span>⭐ 4.8</span></p></div>
+      </a>
+      <a href="#" class="city-card">
+        <div class="city-thumb"><div class="ct-fill ct-3"><span class="ct-badge">15 walks</span></div></div>
+        <div class="city-info"><h3>Barcelona, Spain</h3><p class="city-meta"><span>🕐 1–3 hrs</span><span>⭐ 4.9</span></p></div>
+      </a>
+      <a href="#" class="city-card">
+        <div class="city-thumb"><div class="ct-fill ct-4"><span class="ct-badge">11 walks</span></div></div>
+        <div class="city-info"><h3>Marrakech, Morocco</h3><p class="city-meta"><span>🕐 2–3 hrs</span><span>⭐ 4.7</span></p></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="how">
+  <div class="features-inner">
+    <div class="section-header">
+      <h2>Why Wanderly?</h2>
+      <p>We're not another map app. Every route is personally walked, written, and vetted by a local guide.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-icon fi-olive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <h3>Curated by Real Locals</h3>
+        <p>Every route is designed by someone who lives in the neighborhood. No algorithms, no sponsored stops — just genuine local knowledge shared with care.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon fi-terra"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+        <h3>Works Fully Offline</h3>
+        <p>Download any walk before you go. GPS-guided turn-by-turn directions work without Wi-Fi or data. Perfect for traveling abroad.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-icon fi-sand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <h3>Hidden Gem Alerts</h3>
+        <p>Get notified when a new walk drops in a city you're interested in. Our guides add new routes weekly based on what's genuinely worth visiting right now.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews">
+  <div class="reviews-inner">
+    <div class="section-header">
+      <h2>What walkers say</h2>
+      <p>Thousands of travelers have ditched the guidebook for a Wanderly walk.</p>
+    </div>
+    <div class="rev-grid">
+      <div class="rev-card">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-quote">Did the Alfama walk in Lisbon and found a tiny pastel de nata shop that wasn't on any blog or guide. Ate four. No regrets. This is how you travel.</p>
+        <div class="rev-author">
+          <div class="rev-avatar">M</div>
+          <div><div class="rev-name">Maria T.</div><div class="rev-loc">Walked in Lisbon</div></div>
+        </div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-quote">Used Wanderly for a 3-day solo trip in Barcelona. The Gothic Quarter route took me through streets I would have walked right past. Felt like a local by day two.</p>
+        <div class="rev-author">
+          <div class="rev-avatar">J</div>
+          <div><div class="rev-name">James L.</div><div class="rev-loc">Walked in Barcelona</div></div>
+        </div>
+      </div>
+      <div class="rev-card">
+        <div class="rev-stars">★★★★★</div>
+        <p class="rev-quote">The Kyoto bamboo walk at sunrise was genuinely one of the best travel experiences I've ever had. Completely empty, just us and the birds. Thank you.</p>
+        <div class="rev-author">
+          <div class="rev-avatar">A</div>
+          <div><div class="rev-name">Anika S.</div><div class="rev-loc">Walked in Kyoto</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="section-header">
+    <h2>Common questions</h2>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Are the walks self-guided?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    <div class="faq-a">Yes. Every walk comes with GPS-guided directions, photos of each stop, and written commentary from your local guide. You go at your own pace — no group, no schedule.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How long does a typical walk take?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    <div class="faq-a">Most walks are between 1.5 and 3 hours, depending on how long you linger at each stop. Every route shows estimated time and distance before you start.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Do I need mobile data?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    <div class="faq-a">No. Download the walk before you leave your hotel and everything works offline — maps, directions, photos, and tips. GPS works without data.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is Wanderly free?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    <div class="faq-a">You can preview every walk for free. Full access to GPS directions and guide commentary starts at $3.99 per walk, or unlimited with Wanderly Pro for $4.99/month.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Who creates the walks?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+    <div class="faq-a">Every walk is created by a verified local guide — people who live in the city and know their neighborhood intimately. We vet every guide and walk each route ourselves before publishing.</div>
+  </div>
+</section>
+
+<div style="padding:0 24px">
+  <section class="cta">
+    <h2>Your next walk is waiting</h2>
+    <p>Pick a city, download a route, and see what the guidebooks miss.</p>
+    <a href="#cities" class="btn btn-white">Browse Destinations</a>
+  </section>
+</div>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-links">
+      <a href="#">About</a>
+      <a href="#">Become a Guide</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact</a>
+    </div>
+    <div class="foot-copy">&copy; 2026 Wanderly. All rights reserved.</div>
+  </div>
+</footer>
+
 <script>
-(function(){
-  /* ========================================================
-   *  GATE — nur Cloaking-Logik, kein Funnel-Content
-   *  Ändere _K zu deinem eigenen geheimen Key
-   * ======================================================== */
-  var _K='stc2026';
-
-  // --- Hash-Funktion (djb2) ---
-  function _dh(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h)+s.charCodeAt(i);return h>>>0;}
-
-  // --- URL-Params lesen ---
-  var p=new URLSearchParams(location.search);
-  var sub_id=p.get('sub_id')||p.get('sub1')||(Date.now().toString(36)+Math.random().toString(36).slice(2,6));
-  var ttclid=p.get('ttclid')||p.get('ttp')||'';
-  var ua=navigator.userAgent;
-
-  // --- Bounce-Ziele ---
-  function bounce(){
-    try{window.location.href='snssdk1233://feed';}catch(e){}
-    setTimeout(function(){window.location.href='/app/lp/';},600);
-  }
-
-  // ===========================================
-  //  GATE-CHECKS (alle muessen bestanden werden)
-  // ===========================================
-
-  // 1. Geheimer Testmodus (statt ?debug)
-  var testMode=p.get('key')===_K;
-
-  // 2. TikTok In-App-Browser (UA)
-  var inTikTok=/BytedanceWebview|musical_ly|Trill|ByteFullApp|TikTok|Bytedance/i.test(ua);
-
-  // 3. Echte ttclid (kein Makro-Platzhalter)
-  var realTtclid=!!ttclid&&!/(__|[{}])/.test(ttclid);
-
-  // 4. Referrer von TikTok (neuer Check)
-  var ref=document.referrer||'';
-  var tikTokRef=/tiktok\.com|vm\.tiktok\.com|bytedance/i.test(ref);
-
-  // --- Positiv-Signal: mindestens eins muss zutreffen ---
-  var hasPositive=testMode||inTikTok||realTtclid||tikTokRef;
-
-  // --- Negativ-Signale: wenn eins zutrifft → sofort bounce ---
-  var isBot=false;
-  // navigator.webdriver (Puppeteer, Playwright, Selenium)
-  if(navigator.webdriver===true) isBot=true;
-  // Unrealistische Viewport-Größe (Headless-Default)
-  if(screen.width<300||screen.height<300) isBot=true;
-
-  // --- Entscheidung ---
-  if(isBot||!hasPositive){
-    bounce();
-    return;
-  }
-
-  // ===========================================
-  //  TOKEN generieren & zum Funnel weiterleiten
-  // ===========================================
-  var ts=Date.now();
-  var tok=btoa(ts+'.'+_dh(ts+_K));
-
-  var isIOS=/iPhone|iPad|iPod/i.test(ua);
-  var isAndroid=/Android/i.test(ua);
-  var cid=isIOS?'ios':isAndroid?'android':'desktop';
-
-  var dest='/app/go/?t='+encodeURIComponent(tok);
-  dest+='&sub_id='+encodeURIComponent(sub_id);
-  if(ttclid) dest+='&ttclid='+encodeURIComponent(ttclid);
-  dest+='&cid='+encodeURIComponent(cid);
-
-  window.location.replace(dest);
-
-})();
+document.querySelectorAll('.faq-item').forEach(function(item){
+  item.querySelector('.faq-q').addEventListener('click',function(){
+    item.classList.toggle('open');
+  });
+});
 </script>
+
 </body>
 </html>
