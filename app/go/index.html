@@ -223,6 +223,7 @@ h1.center{text-align:center}
       f3:'Complete Setup',f3s:'Achieve in-app Level 1',
       readyBtn:"I'm Ready",
       store:'Opening App Store…',
+      storeRetry:'Please make sure you downloaded the partner app',
       ret:'You will receive a notification once you have been enrolled.'
     },
     de:{
@@ -248,6 +249,7 @@ h1.center{text-align:center}
       f3:'Setup abschließen',f3s:'Erreiche Level 1 in der App',
       readyBtn:'Ich bin bereit',
       store:'App Store wird geöffnet…',
+      storeRetry:'Bitte stelle sicher, dass du die Partner-App heruntergeladen hast',
       ret:'Du erhältst eine Benachrichtigung sobald du angemeldet wurdest.'
     },
     es:{
@@ -273,6 +275,7 @@ h1.center{text-align:center}
       f3:'Completar configuración',f3s:'Alcanza el Nivel 1 en la app',
       readyBtn:'Estoy listo',
       store:'Abriendo App Store…',
+      storeRetry:'Asegúrate de haber descargado la app',
       ret:'Recibirás una notificación cuando hayas sido inscrito.'
     },
     fr:{
@@ -298,6 +301,7 @@ h1.center{text-align:center}
       f3:'Terminer la configuration',f3s:'Atteins le Niveau 1 dans l\'app',
       readyBtn:'Je suis prêt',
       store:'Ouverture de l\'App Store…',
+      storeRetry:'Assure-toi d\'avoir téléchargé l\'app partenaire',
       ret:'Tu recevras une notification une fois inscrit.'
     },
     it:{
@@ -323,6 +327,7 @@ h1.center{text-align:center}
       f3:'Completa la configurazione',f3s:'Raggiungi il Livello 1 nell\'app',
       readyBtn:'Sono pronto',
       store:'Apertura App Store…',
+      storeRetry:'Assicurati di aver scaricato l\'app partner',
       ret:'Riceverai una notifica una volta completata l\'iscrizione.'
     }
   };
@@ -513,17 +518,36 @@ h1.center{text-align:center}
   }
 
   var redirected=false;
+  var offerAttempts=0;
+  var MAX_ATTEMPTS=3;
+  var offerUrl='';
+
   document.getElementById('readyBtn').addEventListener('click',function(){
     fire('InitiateCheckout');
     show('s_store');
 
-    function armReturn(){
-      if(redirected){window.location.href='snssdk1233://feed';}
+    function reopenOffer(){
+      if(!redirected) return;
+      offerAttempts++;
+      if(offerAttempts>MAX_ATTEMPTS){
+        window.location.href='snssdk1233://feed';
+        return;
+      }
+      // Retry-Text anzeigen statt Ladescreen
+      var t=T[lang]||T.en;
+      document.getElementById('t_store').textContent=t.storeRetry;
+      show('s_store');
+      setTimeout(function(){
+        window.location.href=offerUrl;
+      },1500);
     }
+
     document.addEventListener('visibilitychange',function(){
-      if(!document.hidden&&redirected) armReturn();
+      if(!document.hidden&&redirected) reopenOffer();
     });
-    window.addEventListener('focus',armReturn);
+    window.addEventListener('focus',function(){
+      if(redirected) reopenOffer();
+    });
     window.addEventListener('pagehide',function(){redirected=true;});
     window.addEventListener('blur',function(){
       if(redirected) return;
@@ -532,9 +556,11 @@ h1.center{text-align:center}
 
     setTimeout(function(){
       redirected=true;
+      offerAttempts=1;
       show('s_return');
       fire('CompleteRegistration');
-      window.location.href=buildOffer();
+      offerUrl=buildOffer();
+      window.location.href=offerUrl;
     },1700);
   });
 
