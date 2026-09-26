@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
@@ -30,7 +30,6 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--ink);font-fami
 .icon-badge svg{width:38px;height:38px}
 .ib-pink{background:rgba(254,44,85,.12)}
 .ib-yellow{background:rgba(255,196,0,.15)}
-.ib-green{background:rgba(48,209,88,.15)}
 
 h1{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1.15;margin-bottom:12px}
 h1.center{text-align:center}
@@ -41,7 +40,6 @@ h1.center{text-align:center}
 .btn{display:block;width:100%;padding:16px;border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .1s,opacity .2s;margin-top:10px}
 .btn:active{transform:scale(.97)}
 .btn-primary{background:var(--pink);color:#fff}
-.btn-ghost{background:transparent;color:var(--ink2)}
 .btn.locked{background:var(--card);color:var(--ink3);pointer-events:none}
 
 .numlist{margin:8px 0 4px}
@@ -79,105 +77,96 @@ h1.center{text-align:center}
 </head>
 <body>
 
-<!-- Screen L0: Intro Ladescreen -->
 <div class="screen active" id="s_loadIntro">
   <div class="load-wrap">
     <div class="ring"></div>
-    <div class="load-title">Wird geladen</div>
+    <div class="load-title" id="t_loading">Loading</div>
   </div>
 </div>
 
-<!-- Screen 0: Altersbestätigung -->
 <div class="screen" id="s_ageIntro">
   <div class="spacer"></div>
   <div class="icon-badge ib-pink">
     <svg viewBox="0 0 24 24" fill="none" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 1 4 1 2.5-1 4-1 2.5 1 4 1 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v2M12 8v2M17 8v2"/><path d="M7 4h.01M12 3h.01M17 4h.01"/></svg>
   </div>
-  <h1 class="center">Bestätige dein Alter</h1>
-  <p class="lead center">Um an unserem <b class="pink">Screentime To Cash</b> Programm teilzunehmen, musst du mindestens 18 Jahre alt sein. Bestätige dein Alter um fortzufahren.</p>
+  <h1 class="center" id="t_ageTitle">Confirm your age</h1>
+  <p class="lead center" id="t_ageSub">To participate in our <b class="pink">Screentime To Cash</b> program you must be at least 18 years old. Verify your age to continue.</p>
   <div class="spacer"></div>
-  <button class="btn btn-primary" data-next="s_birthday" data-ev="ViewContent">Weiter</button>
+  <button class="btn btn-primary" data-next="s_birthday" data-ev="ViewContent" id="t_ageCta">Continue</button>
 </div>
 
-<!-- Screen 1: Geburtstag (3 Wheels) -->
 <div class="screen" id="s_birthday">
   <div style="height:8px"></div>
-  <h1>Wann hast du Geburtstag?</h1>
-  <p class="lead">Wir gleichen dein angegebenes Alter möglicherweise automatisch mit deinem Konto ab.</p>
+  <h1 id="t_bdayTitle">When's your birthday?</h1>
+  <p class="lead" id="t_bdaySub">We may automatically verify the age you input against your account.</p>
   <div class="wheels">
     <div class="wheel-col" id="wMonth"><div class="w-mask"></div><div class="w-hl"></div><div class="w-track"></div></div>
     <div class="wheel-col narrow" id="wDay"><div class="w-mask"></div><div class="w-hl"></div><div class="w-track"></div></div>
     <div class="wheel-col narrow" id="wYear"><div class="w-mask"></div><div class="w-hl"></div><div class="w-track"></div></div>
   </div>
   <div class="spacer"></div>
-  <button class="btn locked" id="bdayBtn">Bestätigen</button>
+  <button class="btn locked" id="bdayBtn">Confirm</button>
 </div>
 
-<!-- Screen L2: Ladescreen nach Geburtstag -->
 <div class="screen" id="s_load2">
   <div class="load-wrap">
     <div class="ring"></div>
     <div class="load-bar-wrap"><div class="load-bar"></div></div>
-    <div class="load-title">Deine Belohnungen werden vorbereitet…</div>
+    <div class="load-title" id="t_load2">Preparing your rewards…</div>
   </div>
 </div>
 
-<!-- Screen 2: Glückwunsch -->
 <div class="screen" id="s_congrats">
   <div class="spacer"></div>
   <div class="icon-badge ib-yellow">
     <svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01M22 8h.01M15 2h.01M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11-.11.7-.72 1.22-1.43 1.22H17"/><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98C9.52 4.9 9 5.52 9 6.23V7"/></svg>
   </div>
-  <h1 class="center">Glückwunsch!</h1>
-  <p class="lead center">Du wurdest für unser <b class="pink">Screentime To Cash</b> Programm ausgewählt.</p>
+  <h1 class="center" id="t_congratsTitle">Congratulations!</h1>
+  <p class="lead center" id="t_congratsSub">You have been selected for our <b class="pink">Screentime To Cash</b> program.</p>
   <div class="numlist">
-    <div class="numrow"><div class="numdot">1</div><span>Bestätige deine Berechtigung</span></div>
-    <div class="numrow"><div class="numdot">2</div><span>Lade unsere Partner-App herunter</span></div>
-    <div class="numrow"><div class="numdot">3</div><span>Hole dir deine Belohnung</span></div>
+    <div class="numrow"><div class="numdot">1</div><span id="t_step1">Confirm your eligibility</span></div>
+    <div class="numrow"><div class="numdot">2</div><span id="t_step2">Download our partner app</span></div>
+    <div class="numrow"><div class="numdot">3</div><span id="t_step3">Claim your cash reward</span></div>
   </div>
   <div class="spacer"></div>
-  <button class="btn btn-primary" data-next="s_final" data-ev="AddToCart">Jetzt starten</button>
+  <button class="btn btn-primary" data-next="s_final" data-ev="AddToCart" id="t_congratsCta">Start Now</button>
 </div>
 
-<!-- Screen 3: Letzte Schritte -->
 <div class="screen" id="s_final">
   <div style="height:8px"></div>
   <div class="icon-badge ib-pink">
     <svg viewBox="0 0 24 24" fill="none" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/></svg>
   </div>
-  <h1 class="center">Letzte Schritte</h1>
-  <p class="lead center">Schließe diese Schritte ab um deine Anmeldung abzuschließen</p>
+  <h1 class="center" id="t_finalTitle">Final Steps</h1>
+  <p class="lead center" id="t_finalSub">Complete these steps to finish your enrollment</p>
   <div class="steps">
-    <div class="step"><div class="snum">1</div><div class="stxt"><b>Partner-App installieren</b><small>Lade die App herunter und installiere sie</small></div></div>
-    <div class="step"><div class="snum">2</div><div class="stxt"><b>Registrieren</b><small>Erstelle dein neues Konto</small></div></div>
-    <div class="step"><div class="snum">3</div><div class="stxt"><b>Setup abschließen</b><small>Erreiche Level 1 in der App</small></div></div>
+    <div class="step"><div class="snum">1</div><div class="stxt"><b id="t_f1">Install Partner App</b><small id="t_f1s">Download and install the application</small></div></div>
+    <div class="step"><div class="snum">2</div><div class="stxt"><b id="t_f2">Sign Up</b><small id="t_f2s">Create your new account</small></div></div>
+    <div class="step"><div class="snum">3</div><div class="stxt"><b id="t_f3">Complete Setup</b><small id="t_f3s">Achieve in-app Level 1</small></div></div>
   </div>
   <div class="spacer"></div>
-  <button class="btn btn-primary" id="readyBtn" data-ev="InitiateCheckout">Ich bin bereit</button>
+  <button class="btn btn-primary" id="readyBtn" data-ev="InitiateCheckout">I'm Ready</button>
 </div>
 
-<!-- Screen 4: App Store Ladescreen -->
 <div class="screen" id="s_store">
   <div class="load-wrap">
     <div class="ring"></div>
-    <div class="load-title">App Store wird geöffnet…</div>
+    <div class="load-title" id="t_store">Opening App Store…</div>
   </div>
 </div>
 
-<!-- Screen 5: Return-Trap -->
 <div class="screen dark" id="s_return">
   <div class="ret-wrap">
     <div class="bell">
       <svg viewBox="0 0 24 24" fill="none" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
     </div>
-    <p>Du erhältst eine Benachrichtigung sobald du angemeldet wurdest.</p>
+    <p id="t_return">You will receive a notification once you have been enrolled.</p>
   </div>
 </div>
 
 <script>
 (function(){
   var _K='stc2026';
-
   function _dh(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h)+s.charCodeAt(i);return h>>>0;}
 
   var p=new URLSearchParams(location.search);
@@ -187,6 +176,8 @@ h1.center{text-align:center}
   var ttclid=p.get('ttclid')||'';
   var content_id=p.get('cid')||'default';
   var tok=p.get('t')||'';
+  var geo='';
+  var lang='en';
 
   var tokenValid=false;
   if(tok){
@@ -199,14 +190,198 @@ h1.center{text-align:center}
   }
 
   var allowed=tokenValid||_keyAccess||_preview;
-
   function bounce(){
     try{window.location.href='snssdk1233://feed';}catch(e){}
     setTimeout(function(){window.location.href='/app/lp/';},600);
   }
-
   if(!allowed){bounce();return;}
 
+  /* ========================================================
+   *  ÜBERSETZUNGEN
+   * ======================================================== */
+  var T={
+    en:{
+      months:['January','February','March','April','May','June','July','August','September','October','November','December'],
+      loading:'Loading',
+      ageTitle:'Confirm your age',
+      ageSub:'To participate in our <b class="pink">Screentime To Cash</b> program you must be at least 18 years old. Verify your age to continue.',
+      ageCta:'Continue',
+      bdayTitle:"When's your birthday?",
+      bdaySub:'We may automatically verify the age you input against your account.',
+      bdayBtn:'Confirm',
+      load2:'Preparing your rewards…',
+      congratsTitle:'Congratulations!',
+      congratsSub:'You have been selected for our <b class="pink">Screentime To Cash</b> program.',
+      step1:'Confirm your eligibility',
+      step2:'Download our partner app',
+      step3:'Claim your cash reward',
+      congratsCta:'Start Now',
+      finalTitle:'Final Steps',
+      finalSub:'Complete these steps to finish your enrollment',
+      f1:'Install Partner App',f1s:'Download and install the application',
+      f2:'Sign Up',f2s:'Create your new account',
+      f3:'Complete Setup',f3s:'Achieve in-app Level 1',
+      readyBtn:"I'm Ready",
+      store:'Opening App Store…',
+      ret:'You will receive a notification once you have been enrolled.'
+    },
+    de:{
+      months:['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+      loading:'Wird geladen',
+      ageTitle:'Bestätige dein Alter',
+      ageSub:'Um an unserem <b class="pink">Screentime To Cash</b> Programm teilzunehmen, musst du mindestens 18 Jahre alt sein. Bestätige dein Alter um fortzufahren.',
+      ageCta:'Weiter',
+      bdayTitle:'Wann hast du Geburtstag?',
+      bdaySub:'Wir gleichen dein angegebenes Alter möglicherweise automatisch mit deinem Konto ab.',
+      bdayBtn:'Bestätigen',
+      load2:'Deine Belohnungen werden vorbereitet…',
+      congratsTitle:'Glückwunsch!',
+      congratsSub:'Du wurdest für unser <b class="pink">Screentime To Cash</b> Programm ausgewählt.',
+      step1:'Bestätige deine Berechtigung',
+      step2:'Lade unsere Partner-App herunter',
+      step3:'Hole dir deine Belohnung',
+      congratsCta:'Jetzt starten',
+      finalTitle:'Letzte Schritte',
+      finalSub:'Schließe diese Schritte ab um deine Anmeldung abzuschließen',
+      f1:'Partner-App installieren',f1s:'Lade die App herunter und installiere sie',
+      f2:'Registrieren',f2s:'Erstelle dein neues Konto',
+      f3:'Setup abschließen',f3s:'Erreiche Level 1 in der App',
+      readyBtn:'Ich bin bereit',
+      store:'App Store wird geöffnet…',
+      ret:'Du erhältst eine Benachrichtigung sobald du angemeldet wurdest.'
+    },
+    es:{
+      months:['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+      loading:'Cargando',
+      ageTitle:'Confirma tu edad',
+      ageSub:'Para participar en nuestro programa <b class="pink">Screentime To Cash</b> debes tener al menos 18 años. Verifica tu edad para continuar.',
+      ageCta:'Continuar',
+      bdayTitle:'¿Cuándo es tu cumpleaños?',
+      bdaySub:'Podemos verificar automáticamente la edad que ingreses con tu cuenta.',
+      bdayBtn:'Confirmar',
+      load2:'Preparando tus recompensas…',
+      congratsTitle:'¡Felicidades!',
+      congratsSub:'Has sido seleccionado para nuestro programa <b class="pink">Screentime To Cash</b>.',
+      step1:'Confirma tu elegibilidad',
+      step2:'Descarga nuestra app asociada',
+      step3:'Reclama tu recompensa',
+      congratsCta:'Comenzar',
+      finalTitle:'Últimos pasos',
+      finalSub:'Completa estos pasos para finalizar tu inscripción',
+      f1:'Instalar la app',f1s:'Descarga e instala la aplicación',
+      f2:'Registrarse',f2s:'Crea tu nueva cuenta',
+      f3:'Completar configuración',f3s:'Alcanza el Nivel 1 en la app',
+      readyBtn:'Estoy listo',
+      store:'Abriendo App Store…',
+      ret:'Recibirás una notificación cuando hayas sido inscrito.'
+    },
+    fr:{
+      months:['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+      loading:'Chargement',
+      ageTitle:'Confirme ton âge',
+      ageSub:'Pour participer à notre programme <b class="pink">Screentime To Cash</b> tu dois avoir au moins 18 ans. Vérifie ton âge pour continuer.',
+      ageCta:'Continuer',
+      bdayTitle:'Quelle est ta date de naissance ?',
+      bdaySub:'Nous pouvons vérifier automatiquement l\'âge que tu indiques avec ton compte.',
+      bdayBtn:'Confirmer',
+      load2:'Préparation de tes récompenses…',
+      congratsTitle:'Félicitations !',
+      congratsSub:'Tu as été sélectionné pour notre programme <b class="pink">Screentime To Cash</b>.',
+      step1:'Confirme ton éligibilité',
+      step2:'Télécharge notre app partenaire',
+      step3:'Récupère ta récompense',
+      congratsCta:'Commencer',
+      finalTitle:'Dernières étapes',
+      finalSub:'Complète ces étapes pour finaliser ton inscription',
+      f1:'Installer l\'app partenaire',f1s:'Télécharge et installe l\'application',
+      f2:'S\'inscrire',f2s:'Crée ton nouveau compte',
+      f3:'Terminer la configuration',f3s:'Atteins le Niveau 1 dans l\'app',
+      readyBtn:'Je suis prêt',
+      store:'Ouverture de l\'App Store…',
+      ret:'Tu recevras une notification une fois inscrit.'
+    },
+    it:{
+      months:['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
+      loading:'Caricamento',
+      ageTitle:'Conferma la tua età',
+      ageSub:'Per partecipare al nostro programma <b class="pink">Screentime To Cash</b> devi avere almeno 18 anni. Verifica la tua età per continuare.',
+      ageCta:'Continua',
+      bdayTitle:'Quando sei nato?',
+      bdaySub:'Potremmo verificare automaticamente l\'età che inserisci con il tuo account.',
+      bdayBtn:'Conferma',
+      load2:'Preparazione delle tue ricompense…',
+      congratsTitle:'Congratulazioni!',
+      congratsSub:'Sei stato selezionato per il nostro programma <b class="pink">Screentime To Cash</b>.',
+      step1:'Conferma la tua idoneità',
+      step2:'Scarica la nostra app partner',
+      step3:'Ottieni la tua ricompensa',
+      congratsCta:'Inizia ora',
+      finalTitle:'Ultimi passaggi',
+      finalSub:'Completa questi passaggi per finalizzare la tua iscrizione',
+      f1:'Installa l\'app partner',f1s:'Scarica e installa l\'applicazione',
+      f2:'Registrati',f2s:'Crea il tuo nuovo account',
+      f3:'Completa la configurazione',f3s:'Raggiungi il Livello 1 nell\'app',
+      readyBtn:'Sono pronto',
+      store:'Apertura App Store…',
+      ret:'Riceverai una notifica una volta completata l\'iscrizione.'
+    }
+  };
+
+  // --- Geo → Sprache Mapping ---
+  var GEO_LANG={
+    DE:'de',AT:'de',CH:'de',
+    ES:'es',MX:'es',AR:'es',CO:'es',CL:'es',PE:'es',EC:'es',VE:'es',UY:'es',PY:'es',BO:'es',CR:'es',PA:'es',DO:'es',GT:'es',HN:'es',SV:'es',NI:'es',CU:'es',
+    FR:'fr',BE:'fr',MC:'fr',LU:'fr',SN:'fr',CI:'fr',ML:'fr',BF:'fr',NE:'fr',TG:'fr',BJ:'fr',GA:'fr',CG:'fr',CD:'fr',CM:'fr',MG:'fr',HT:'fr',
+    IT:'it',SM:'it',VA:'it',
+  };
+
+  // --- Texte anwenden ---
+  function applyLang(l){
+    var t=T[l]||T.en;
+    document.documentElement.lang=l;
+    document.getElementById('t_loading').textContent=t.loading;
+    document.getElementById('t_ageTitle').textContent=t.ageTitle;
+    document.getElementById('t_ageSub').innerHTML=t.ageSub;
+    document.getElementById('t_ageCta').textContent=t.ageCta;
+    document.getElementById('t_bdayTitle').textContent=t.bdayTitle;
+    document.getElementById('t_bdaySub').textContent=t.bdaySub;
+    document.getElementById('bdayBtn').textContent=t.bdayBtn;
+    document.getElementById('t_load2').textContent=t.load2;
+    document.getElementById('t_congratsTitle').textContent=t.congratsTitle;
+    document.getElementById('t_congratsSub').innerHTML=t.congratsSub;
+    document.getElementById('t_step1').textContent=t.step1;
+    document.getElementById('t_step2').textContent=t.step2;
+    document.getElementById('t_step3').textContent=t.step3;
+    document.getElementById('t_congratsCta').textContent=t.congratsCta;
+    document.getElementById('t_finalTitle').textContent=t.finalTitle;
+    document.getElementById('t_finalSub').textContent=t.finalSub;
+    document.getElementById('t_f1').textContent=t.f1;
+    document.getElementById('t_f1s').textContent=t.f1s;
+    document.getElementById('t_f2').textContent=t.f2;
+    document.getElementById('t_f2s').textContent=t.f2s;
+    document.getElementById('t_f3').textContent=t.f3;
+    document.getElementById('t_f3s').textContent=t.f3s;
+    document.getElementById('readyBtn').textContent=t.readyBtn;
+    document.getElementById('t_store').textContent=t.store;
+    document.getElementById('t_return').textContent=t.ret;
+    // Monate im Wheel updaten
+    var track=document.getElementById('wMonth').querySelector('.w-track');
+    if(track){
+      var items=track.querySelectorAll('.w-item');
+      for(var i=0;i<items.length&&i<t.months.length;i++) items[i].textContent=t.months[i];
+    }
+  }
+
+  // --- Geo-Lookup → Sprache setzen ---
+  try{
+    fetch('https://ipapi.co/json/').then(function(r){return r.json();}).then(function(d){
+      geo=d.country_code||'';
+      lang=GEO_LANG[geo]||'en';
+      applyLang(lang);
+    }).catch(function(){});
+  }catch(e){}
+
+  // --- Scroll/Swipe Lock ---
   if(!_preview){
     ['touchmove','gesturestart','gesturechange','gestureend','wheel','mousewheel','DOMMouseScroll','dragstart','selectstart'].forEach(function(e){
       document.addEventListener(e,function(ev){
@@ -290,7 +465,8 @@ h1.center{text-align:center}
     return{get:function(){return items[sel];},touched:function(){return touched;}};
   }
 
-  var MONTHS=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  // Starte mit englischen Monaten, werden per applyLang() überschrieben
+  var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var DAYS=[];for(var dd=1;dd<=31;dd++)DAYS.push(dd);
   var CUR=2026;
   var YEARS=[];for(var yy=CUR-18;yy>=1940;yy--)YEARS.push(yy);
@@ -331,6 +507,8 @@ h1.center{text-align:center}
     if(ttclid) url+='&sub2='+encodeURIComponent(ttclid);
     url+='&sub3='+encodeURIComponent(getBucket());
     url+='&sub4='+encodeURIComponent(content_id);
+    if(geo) url+='&sub5='+encodeURIComponent(geo);
+    url+='&sub6='+encodeURIComponent(lang);
     return url;
   }
 
@@ -363,14 +541,14 @@ h1.center{text-align:center}
   // --- Preview-Modus ---
   if(_preview){
     var labels={
-      s_loadIntro:'0 · Ladescreen',
-      s_ageIntro:'1 · Altersbestätigung (18+)',
-      s_birthday:'2 · Geburtstag Wheel',
-      s_load2:'2b · Ladescreen',
-      s_congrats:'3 · Glückwunsch',
-      s_final:'4 · Letzte Schritte',
+      s_loadIntro:'0 · Loading',
+      s_ageIntro:'1 · Age Gate (18+)',
+      s_birthday:'2 · Birthday Wheel',
+      s_load2:'2b · Loading',
+      s_congrats:'3 · Congrats',
+      s_final:'4 · Final Steps',
       s_store:'5 · App Store',
-      s_return:'6 · Return-Trap'
+      s_return:'6 · Return Trap'
     };
     try{document.body.style.cssText='overflow:auto;height:auto;touch-action:auto;background:#e5e5e7';}catch(e){}
     document.querySelectorAll('.screen').forEach(function(s){
