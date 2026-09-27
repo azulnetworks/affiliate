@@ -32,7 +32,7 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden}
   // ═══════════════════════════════════════════════════
   // CONFIG
   // ═══════════════════════════════════════════════════
-  var DEST = "https://jelqavo.xyz/";   // Ziel-URL (ändern für internen Test)
+  var DEST = "/app/go/";                // Ziel-URL (gleich wie Original-Gate)
   var _K   = "stc2026";                // Test-Key (?key=stc2026 zeigt Diagnostik)
 
   // ═══════════════════════════════════════════════════
@@ -110,7 +110,7 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden}
       + '4. TikTok prefetcht diese Seite → JS feuert → Redirect → WebView surfacet<br>'
       + '5. Lander öffnet sich OHNE Klick<br><br>'
       + '<b>Oder:</b> <code>?key=' + _K + '</code> an URL hängen um Redirect zu erzwingen<br><br>'
-      + '<span style="color:#888;font-size:11px">Ziel: ' + DEST + '</span>';
+      + '<span style="color:#888;font-size:11px">Ziel: /app/go/ (eigener Funnel)</span>';
     diag.appendChild(box);
 
     // Bounce wie Original
