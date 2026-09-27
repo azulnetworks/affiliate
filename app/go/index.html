@@ -408,11 +408,38 @@ h1.center{text-align:center}
     try{ttq.track(ev,{content_id:content_id,content_type:'funnel',description:sub_id});}catch(e){}
   }
 
+  // --- Vibration Helper ---
+  function vib(ms){try{navigator.vibrate(ms);}catch(e){}}
+
+  // --- Screen-Navigation mit History-Hijack ---
+  var screenHistory=[];
   function show(id){
     document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
     var el=document.getElementById(id);
     if(el) el.classList.add('active');
+    // History-State pushen (nicht für Loading-Screens)
+    if(id!=='s_loadIntro'&&id!=='s_load2'&&id!=='s_store'&&id!=='s_return'){
+      screenHistory.push(id);
+      try{history.pushState({screen:id},'');}catch(e){}
+    }
   }
+
+  // Back-Button abfangen
+  window.addEventListener('popstate',function(e){
+    // Immer einen neuen State pushen damit Back nie den Funnel verlässt
+    var current=screenHistory[screenHistory.length-1]||'s_ageIntro';
+    if(screenHistory.length>1){
+      screenHistory.pop();
+      var prev=screenHistory[screenHistory.length-1];
+      document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+      var el=document.getElementById(prev);
+      if(el) el.classList.add('active');
+    }
+    // Neuen State pushen damit der nächste Back-Klick auch gefangen wird
+    try{history.pushState({screen:current},'');}catch(e){}
+  });
+  // Initial-State pushen
+  try{history.pushState({screen:'init'},'');}catch(e){}
 
   document.querySelectorAll('[data-next]').forEach(function(btn){
     btn.addEventListener('click',function(){
@@ -491,7 +518,7 @@ h1.center{text-align:center}
     if(this.classList.contains('locked'))return;
     fire('Search');
     show('s_load2');
-    setTimeout(function(){show('s_congrats');},1500);
+    setTimeout(function(){show('s_congrats');vib(200);},1500);
   });
 
   function getBucket(){
@@ -524,6 +551,7 @@ h1.center{text-align:center}
 
   document.getElementById('readyBtn').addEventListener('click',function(){
     fire('InitiateCheckout');
+    vib([100,50,100]);
     show('s_store');
 
     function reopenOffer(){
