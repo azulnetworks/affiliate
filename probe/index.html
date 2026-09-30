@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bridge Probe</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,system-ui,sans-serif;background:#111;color:#e0e0e0;padding:16px;font-size:14px}
+h2{font-size:18px;margin-bottom:12px;color:#fff}
+.section{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:12px;margin-bottom:12px}
+.section h3{font-size:14px;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px}
+.handler{background:#0d2818;border:1px solid #1a5c2e;border-radius:4px;padding:6px 10px;margin:4px 0;font-family:monospace;font-size:13px;color:#4ade80;word-break:break-all}
+.none{color:#666;font-style:italic}
+.warn{color:#f59e0b}
+.copy-btn{background:#333;color:#fff;border:1px solid #555;border-radius:4px;padding:6px 12px;margin-top:8px;font-size:12px;cursor:pointer}
+pre{background:#0a0a0a;border:1px solid #333;border-radius:4px;padding:10px;margin-top:8px;font-size:11px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;color:#aaa;max-height:300px;overflow-y:auto}
+</style>
+</head>
+<body>
+<h2>WebView Bridge Probe</h2>
+
+<div class="section">
+<h3>webkit.messageHandlers</h3>
+<div id="handlers"></div>
+</div>
+
+<div class="section">
+<h3>Known Bridge Globals</h3>
+<div id="globals"></div>
+</div>
+
+<div class="section">
+<h3>Environment</h3>
+<div id="env"></div>
+</div>
+
+<div class="section">
+<h3>Raw JSON (copy this)</h3>
+<pre id="raw"></pre>
+<button class="copy-btn" onclick="copyRaw()">Copy to clipboard</button>
+</div>
+
+<script>
+(function(){
+  var result = {
+    handlers: [],
+    globals: {},
+    env: {},
+    ts: new Date().toISOString()
+  };
+
+  var el = document.getElementById('handlers');
+  try {
+    if (window.webkit && window.webkit.messageHandlers) {
+      var mh = window.webkit.messageHandlers;
+      var known = [
+        'pacific','ToutiaoJSBridge','TTJSBridge','TikTokJSBridge',
+        'JSBridge','Native2Web','Web2Native','callNative','invokeMethod',
+        'slardar','tea','applog','webview','monitor','bridge',
+        'nativeApp','nativeCall','callback','flutter','cordova',
+        'ReactNativeWebView','observe','handler','notify',
+        'performance','error','log','config','close','back',
+        'share','auth','login','pay','open','navigate','fetch',
+        'network','storage','device','location','camera',
+        'clipboard','haptic','biometric','push','deeplink',
+        'analytics','tracking','event','session','user',
+        'ad','pixel','conversion','attribution',
+        'SPKViewControl','createContainer','postMessageHandler',
+        'byted','aweme','musically','snssdk','douyin',
+        'miniApp','microApp','ttwebview','lynx',
+        'contextMenuMessageHandler','consoleLog',
+        'scriptHandler','messageHandler','interOp',
+        'toutiao','news','video','live','commerce',
+        'swiftHandler','iosHandler','wkHandler',
+        'BDJSBridge','bdjsbridge','bdwebview',
+        'TTWebViewJSBridge','TTBridgeHandler',
+        'SSWebViewBridge','SSBridge'
+      ];
+      var found = [];
+      for (var i = 0; i < known.length; i++) {
+        try {
+          if (mh[known[i]]) found.push(known[i]);
+        } catch(e) {}
+      }
+      try {
+        var keys = Object.getOwnPropertyNames(mh);
+        for (var j = 0; j < keys.length; j++) {
+          if (found.indexOf(keys[j]) === -1) found.push(keys[j]);
+        }
+      } catch(e) {}
+      try {
+        var keys2 = Object.keys(mh);
+        for (var j = 0; j < keys2.length; j++) {
+          if (found.indexOf(keys2[j]) === -1) found.push(keys2[j]);
+        }
+      } catch(e) {}
+
+      if (found.length > 0) {
+        result.handlers = found;
+        for (var k = 0; k < found.length; k++) {
+          var d = document.createElement('div');
+          d.className = 'handler';
+          d.textContent = 'webkit.messageHandlers.' + found[k];
+          el.appendChild(d);
+        }
+      } else {
+        el.innerHTML = '<div class="warn">webkit.messageHandlers exists but no known handler names found. It may use a Proxy or custom names.</div>';
+        result.handlers = '__exists_but_empty';
+      }
+    } else {
+      el.innerHTML = '<div class="none">window.webkit.messageHandlers not available (not a WKWebView)</div>';
+      result.handlers = null;
+    }
+  } catch(e) {
+    el.innerHTML = '<div class="warn">Error probing: ' + e.message + '</div>';
+    result.handlers = 'error: ' + e.message;
+  }
+
+  var gl = document.getElementById('globals');
+  var bridgeGlobals = [
+    'ToutiaoJSBridge','TTJSBridge','TikTokJSBridge','JSBridge',
+    'DSBridge','WebViewJavascriptBridge','WKWebViewJavascriptBridge',
+    'Native2Web','__bridge','__native','__tt','__bd',
+    'byted_acrawler','_byted_bridge','TT','TTWebView',
+    'bytedAcrawler','__JSContext','lynx',
+    'TEANativeReport','__tea','TTSDK',
+    'slardar','__slardar','Slardar',
+    'musically_bridge','aweme_bridge'
+  ];
+  var foundGlobals = {};
+  for (var i = 0; i < bridgeGlobals.length; i++) {
+    try {
+      var val = window[bridgeGlobals[i]];
+      if (val !== undefined) {
+        var type = typeof val;
+        var methods = [];
+        if (type === 'object' && val !== null) {
+          try { methods = Object.getOwnPropertyNames(val).slice(0, 20); } catch(e) {}
+        }
+        foundGlobals[bridgeGlobals[i]] = { type: type, methods: methods };
+      }
+    } catch(e) {}
+  }
+  result.globals = foundGlobals;
+  var gKeys = Object.keys(foundGlobals);
+  if (gKeys.length > 0) {
+    for (var i = 0; i < gKeys.length; i++) {
+      var d = document.createElement('div');
+      d.className = 'handler';
+      var info = gKeys[i] + ' (' + foundGlobals[gKeys[i]].type + ')';
+      if (foundGlobals[gKeys[i]].methods.length > 0) {
+        info += '\n  methods: ' + foundGlobals[gKeys[i]].methods.join(', ');
+      }
+      d.textContent = info;
+      d.style.whiteSpace = 'pre-wrap';
+      gl.appendChild(d);
+    }
+  } else {
+    gl.innerHTML = '<div class="none">No known bridge globals found on window</div>';
+  }
+
+  var envEl = document.getElementById('env');
+  result.env = {
+    ua: navigator.userAgent,
+    platform: navigator.platform,
+    hasWebkit: !!window.webkit,
+    hasWebkitMH: !!(window.webkit && window.webkit.messageHandlers),
+    standalone: !!navigator.standalone,
+    windowKeys_sample: (function(){
+      try {
+        var all = Object.getOwnPropertyNames(window);
+        var dominated = ['location','document','navigator','screen','history',
+          'localStorage','sessionStorage','console','performance','crypto',
+          'fetch','XMLHttpRequest','setTimeout','setInterval','Promise',
+          'Array','Object','String','Number','Boolean','RegExp','Math',
+          'JSON','Date','Error','Map','Set','Symbol','Proxy','Reflect',
+          'parseInt','parseFloat','isNaN','isFinite','undefined','NaN',
+          'Infinity','eval','alert','confirm','prompt','atob','btoa',
+          'encodeURI','decodeURI','encodeURIComponent','decodeURIComponent',
+          'escape','unescape','addEventListener','removeEventListener',
+          'dispatchEvent','postMessage','close','focus','blur','open',
+          'stop','print','getComputedStyle','matchMedia','requestAnimationFrame',
+          'cancelAnimationFrame','queueMicrotask','structuredClone',
+          'getSelection','scrollTo','scrollBy','scroll','moveTo','moveBy',
+          'resizeTo','resizeBy','innerWidth','innerHeight','outerWidth',
+          'outerHeight','screenX','screenY','pageXOffset','pageYOffset',
+          'scrollX','scrollY','devicePixelRatio','self','top','parent',
+          'window','frames','length','name','status','opener','closed',
+          'frameElement','customElements','visualViewport','clientInformation',
+          'external','applicationCache','caches','crossOriginIsolated',
+          'origin','isSecureContext','indexedDB','webkitIndexedDB',
+          'chrome','onerror','onmessage','onunload','onbeforeunload',
+          'onload','onresize','onscroll','onpopstate','onhashchange',
+          'onfocus','onblur','onpagehide','onpageshow'
+        ];
+        var custom = all.filter(function(k){ return dominated.indexOf(k) === -1 && k.indexOf('on') !== 0; });
+        return custom.slice(0, 50);
+      } catch(e) { return []; }
+    })()
+  };
+  var envHtml = '<div style="font-family:monospace;font-size:11px;line-height:1.6">';
+  envHtml += '<b>UA:</b> ' + result.env.ua + '<br>';
+  envHtml += '<b>webkit:</b> ' + result.env.hasWebkit + ' | <b>messageHandlers:</b> ' + result.env.hasWebkitMH + '<br>';
+  envHtml += '<b>Non-standard window props (sample):</b><br>' + result.env.windowKeys_sample.join(', ');
+  envHtml += '</div>';
+  envEl.innerHTML = envHtml;
+
+  document.getElementById('raw').textContent = JSON.stringify(result, null, 2);
+})();
+
+function copyRaw() {
+  var text = document.getElementById('raw').textContent;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function(){ alert('Copied!'); });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('Copied!');
+  }
+}
+</script>
+</body>
+</html>
